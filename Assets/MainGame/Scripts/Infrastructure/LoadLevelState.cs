@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace MainGame.Scripts.Infrastructure
 {
     public class LoadLevelState : IPayloadState<SceneName>
     {
-        private const string PlayerPlayer = "Player/Player";
+        private const string PlayerPath = "Prefabs/Player/Player";
+        private const string Playerinitialpoint = "PlayerInitialPoint";
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -22,14 +22,23 @@ namespace MainGame.Scripts.Infrastructure
 
         private void OnLoaded()
         {
-            GameObject playerPrefab = PlayerPrefab();
+            GameObject initialPoint = GameObject.FindWithTag(Playerinitialpoint);
+            
+            GameObject playerPrefab = Instantiate(PlayerPath, at: initialPoint.transform.position);
         }
 
-        private static GameObject PlayerPrefab()
+        private static GameObject Instantiate(string path)
         {
-            GameObject playerPrefab = Resources.Load<GameObject>(PlayerPlayer);
+            GameObject playerPrefab = Resources.Load<GameObject>(path);
             
             return Object.Instantiate(playerPrefab); 
+        }
+        
+        private static GameObject Instantiate(string path, Vector3 at)
+        {
+            GameObject playerPrefab = Resources.Load<GameObject>(path);
+            
+            return Object.Instantiate(playerPrefab, at, Quaternion.identity); 
         }
 
         public void Exit()

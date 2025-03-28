@@ -6,7 +6,7 @@ namespace MainGame.Scripts.Infrastructure
 {
     public class BootstrapState : IState
     {
-        private const string UIMobilejoystickMobilejoystickhud = "UI/MobileJoystick/MobileJoystickHud";
+        private const string UIMobilejoystickMobilejoystickhud = "Prefabs/UI/MobileJoystick/MobileJoystickHud";
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
 

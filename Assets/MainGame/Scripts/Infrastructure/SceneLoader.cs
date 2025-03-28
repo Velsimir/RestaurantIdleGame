@@ -23,8 +23,6 @@ namespace MainGame.Scripts.Infrastructure
         {
             string sceneName = name.ToString();
             
-            Debug.Log($"{sceneName} and {SceneManager.GetActiveScene().name}");
-            
             if (SceneManager.GetActiveScene().name == sceneName)
             {
                 onLoaded?.Invoke();
