@@ -6,6 +6,7 @@ namespace MainGame.Scripts.Infrastructure
 {
     public class BootstrapState : IState
     {
+        private const string UIMobilejoystickMobilejoystickhud = "UI/MobileJoystick/MobileJoystickHud";
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -37,16 +38,16 @@ namespace MainGame.Scripts.Infrastructure
         
         private IInputService RegisterInputService()
         {
-            if (Application.isEditor)
+            if (Application.isEditor == false)
             {
                 return new StandaloneInputService();
             }
             else
             {
                 MobileJoystickHud mobileJoystickHud = 
-                    Resources.Load<MobileJoystickHud>("UI/MobileJoystick/MobileJoystickHud");
+                    Resources.Load<MobileJoystickHud>(UIMobilejoystickMobilejoystickhud);
                 
-                mobileJoystickHud = GameObject.Instantiate(mobileJoystickHud);
+                mobileJoystickHud = Object.Instantiate(mobileJoystickHud);
                 
                 return new MobileInputService(mobileJoystickHud.FloatingJoystick);
             }

@@ -7,5 +7,10 @@ namespace MainGame.Scripts.UI
         [SerializeField] private FloatingJoystick _floatingJoystick;
 
         public FloatingJoystick FloatingJoystick => _floatingJoystick;
+
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
     }
 }
