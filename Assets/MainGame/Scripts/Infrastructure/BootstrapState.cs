@@ -1,4 +1,3 @@
-using System;
 using MainGame.Scripts.Services.InputService;
 using MainGame.Scripts.UI;
 using UnityEngine;
@@ -24,7 +23,7 @@ namespace MainGame.Scripts.Infrastructure
 
         private void EnterLoadedLevel()
         {
-            
+            _gameStateMachine.Enter<LoadLevelState, SceneName>(SceneName.Game);
         }
 
         public void Exit()
@@ -36,7 +35,7 @@ namespace MainGame.Scripts.Infrastructure
             Game.InputService = RegisterInputService();
         }
         
-        private InputService RegisterInputService()
+        private IInputService RegisterInputService()
         {
             if (Application.isEditor)
             {

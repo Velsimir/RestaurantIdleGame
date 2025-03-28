@@ -1,8 +1,17 @@
 namespace MainGame.Scripts.Infrastructure
 {
-    public interface IState
+    public interface IExitableState
+    {
+        void Exit();
+    }
+
+    public interface IState : IExitableState
     {
         void Enter();
-        void Exit();
+    }
+
+    public interface IPayloadState<TPayload> : IExitableState
+    {
+        void Enter(TPayload payload);
     }
 }
