@@ -3,7 +3,7 @@ using MainGame.Scripts.Infrastructure;
 using MainGame.Scripts.Services.InputService;
 using UnityEngine;
 
-namespace MainGame.Scripts.Movement
+namespace MainGame.Scripts.PlayerLogic.Movement
 {
     public class PlayerMover : IUpdatable
     {

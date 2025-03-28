@@ -1,8 +1,8 @@
-using MainGame.Scripts.Movement;
-using MainGame.Scripts.Player.Animations;
+using MainGame.Scripts.PlayerLogic.Animations;
+using MainGame.Scripts.PlayerLogic.Movement;
 using UnityEngine;
 
-namespace MainGame.Scripts.Player
+namespace MainGame.Scripts.PlayerLogic
 {
     [RequireComponent(typeof(CharacterController))]
     public class Player : MonoBehaviour

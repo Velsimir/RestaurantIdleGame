@@ -23,6 +23,8 @@ namespace MainGame.Scripts.Infrastructure
         {
             string sceneName = name.ToString();
             
+            Debug.Log($"{sceneName} and {SceneManager.GetActiveScene().name}");
+            
             if (SceneManager.GetActiveScene().name == sceneName)
             {
                 onLoaded?.Invoke();
@@ -31,7 +33,7 @@ namespace MainGame.Scripts.Infrastructure
             
             AsyncOperation waitNextScene = SceneManager.LoadSceneAsync(sceneName);
 
-            while (waitNextScene.isDone)
+            while (waitNextScene.isDone == false)
             {
                 yield return null;
             }

@@ -1,7 +1,7 @@
-using MainGame.Scripts.Movement;
+using MainGame.Scripts.PlayerLogic.Movement;
 using UnityEngine;
 
-namespace MainGame.Scripts.Player.Animations
+namespace MainGame.Scripts.PlayerLogic.Animations
 {
     public class PlayerAnimator : IUpdatable
     {
