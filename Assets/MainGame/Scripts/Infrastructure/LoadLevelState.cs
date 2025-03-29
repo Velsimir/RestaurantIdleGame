@@ -17,7 +17,6 @@ namespace MainGame.Scripts.Infrastructure
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
-            _gameFactory = new GameFactory();
         }
 
         public void Enter(SceneName name)

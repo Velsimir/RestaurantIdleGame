@@ -5,8 +5,6 @@ namespace MainGame.Scripts.Infrastructure
 {
     public class GameFactory : IGameFactory
     {
-        private const string PlayerPath = "Prefabs/Player/Player";
-        
         private readonly AssetProvider _assets;
 
         public GameFactory(AssetProvider assets)
@@ -16,7 +14,7 @@ namespace MainGame.Scripts.Infrastructure
 
         public GameObject CreateHero(GameObject at)
         {
-            return _assets.Instantiate(PlayerPath, at.transform.position);
+            return _assets.Instantiate(AssetPath.PlayerPath, at.transform.position);
         }
     }
 }

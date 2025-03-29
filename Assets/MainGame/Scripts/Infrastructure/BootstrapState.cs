@@ -6,8 +6,6 @@ namespace MainGame.Scripts.Infrastructure
 {
     public class BootstrapState : IState
     {
-        private const string MobileJoystickHudPath = "Prefabs/UI/MobileJoystick/MobileJoystickHud";
-        
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -51,7 +49,7 @@ namespace MainGame.Scripts.Infrastructure
         private static IInputService CreateMobileInput()
         {
             MobileJoystickHud mobileJoystickHud = 
-                Resources.Load<MobileJoystickHud>(MobileJoystickHudPath);
+                Resources.Load<MobileJoystickHud>(AssetPath.MobileJoystickHudPath);
                 
             mobileJoystickHud = Object.Instantiate(mobileJoystickHud);
                 
