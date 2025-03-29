@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using MainGame.Scripts.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
