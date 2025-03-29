@@ -5,7 +5,7 @@ namespace MainGame.Scripts.Infrastructure
 {
     public class Game
     {
-        public GameStateMachine StateMachine;
+        public readonly GameStateMachine StateMachine;
         public static IInputService InputService;
 
         public Game(ICoroutineRunner coroutineRunner, Curtain curtain)

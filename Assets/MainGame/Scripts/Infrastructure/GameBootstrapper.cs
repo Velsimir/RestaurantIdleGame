@@ -11,7 +11,7 @@ namespace MainGame.Scripts.Infrastructure
 
         private void Awake()
         {
-            _game = new Game(this, _curtain);
+            _game = new Game(coroutineRunner: this, _curtain);
             _game.StateMachine.Enter<BootstrapState>();
 
             DontDestroyOnLoad(this);

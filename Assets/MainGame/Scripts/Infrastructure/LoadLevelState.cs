@@ -5,17 +5,19 @@ namespace MainGame.Scripts.Infrastructure
 {
     public class LoadLevelState : IPayloadState<SceneName>
     {
-        private const string PlayerPath = "Prefabs/Player/Player";
         private const string PlayerInitialPoint = "PlayerInitialPoint";
+        
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly Curtain _curtain;
+        private readonly IGameFactory _gameFactory;
 
         public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, Curtain curtain)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
+            _gameFactory = new GameFactory();
         }
 
         public void Enter(SceneName name)
@@ -33,23 +35,9 @@ namespace MainGame.Scripts.Infrastructure
         {
             GameObject initialPoint = GameObject.FindWithTag(PlayerInitialPoint);
             
-            GameObject playerPrefab = Instantiate(PlayerPath, at: initialPoint.transform.position);
+            GameObject playerPrefab = _gameFactory.CreateHero(initialPoint);
             
             _gameStateMachine.Enter<GameLoopState>();
-        }
-
-        private static GameObject Instantiate(string path)
-        {
-            GameObject playerPrefab = Resources.Load<GameObject>(path);
-            
-            return Object.Instantiate(playerPrefab); 
-        }
-
-        private static GameObject Instantiate(string path, Vector3 at)
-        {
-            GameObject playerPrefab = Resources.Load<GameObject>(path);
-            
-            return Object.Instantiate(playerPrefab, at, Quaternion.identity); 
         }
     }
 }

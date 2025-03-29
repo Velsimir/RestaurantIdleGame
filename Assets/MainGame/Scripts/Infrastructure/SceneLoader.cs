@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using MainGame.Scripts.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,7 +7,7 @@ namespace MainGame.Scripts.Infrastructure
 {
     public class SceneLoader
     {
-        private ICoroutineRunner _coroutineRunner;
+        private readonly ICoroutineRunner _coroutineRunner;
         
         public SceneLoader(ICoroutineRunner coroutineRunner)
         {
@@ -32,7 +31,7 @@ namespace MainGame.Scripts.Infrastructure
             
             AsyncOperation waitNextScene = SceneManager.LoadSceneAsync(sceneName);
 
-            while (waitNextScene.isDone == false)
+            while (waitNextScene?.isDone == false)
             {
                 yield return null;
             }

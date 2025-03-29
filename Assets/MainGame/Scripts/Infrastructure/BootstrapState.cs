@@ -7,6 +7,7 @@ namespace MainGame.Scripts.Infrastructure
     public class BootstrapState : IState
     {
         private const string MobileJoystickHudPath = "Prefabs/UI/MobileJoystick/MobileJoystickHud";
+        
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -28,8 +29,7 @@ namespace MainGame.Scripts.Infrastructure
         }
 
         public void Exit()
-        {
-        }
+        { }
 
         private void RegisterServices()
         {
@@ -44,13 +44,18 @@ namespace MainGame.Scripts.Infrastructure
             }
             else
             {
-                MobileJoystickHud mobileJoystickHud = 
-                    Resources.Load<MobileJoystickHud>(MobileJoystickHudPath);
-                
-                mobileJoystickHud = Object.Instantiate(mobileJoystickHud);
-                
-                return new MobileInputService(mobileJoystickHud.FloatingJoystick);
+                return CreateMobileInput();
             }
+        }
+
+        private static IInputService CreateMobileInput()
+        {
+            MobileJoystickHud mobileJoystickHud = 
+                Resources.Load<MobileJoystickHud>(MobileJoystickHudPath);
+                
+            mobileJoystickHud = Object.Instantiate(mobileJoystickHud);
+                
+            return new MobileInputService(mobileJoystickHud.FloatingJoystick);
         }
     }
 }
