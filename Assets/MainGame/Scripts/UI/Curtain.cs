@@ -8,13 +8,12 @@ namespace MainGame.Scripts.UI
     {
         [SerializeField] private float _alphaFadeInStep = 0.1f;
         [SerializeField] private float _timeFadeInStep = 0.01f;
+        [SerializeField] private CanvasGroup _canvasGroup;
         
-        private CanvasGroup _canvasGroup;
         private WaitForSeconds _wait;
         
         private void Awake()
         {
-            _canvasGroup = GetComponent<CanvasGroup>();
             _wait = new WaitForSeconds(_timeFadeInStep);
             DontDestroyOnLoad(this);
         }

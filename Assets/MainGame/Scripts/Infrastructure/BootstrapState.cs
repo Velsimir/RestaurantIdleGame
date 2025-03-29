@@ -6,7 +6,7 @@ namespace MainGame.Scripts.Infrastructure
 {
     public class BootstrapState : IState
     {
-        private const string UIMobilejoystickMobilejoystickhud = "Prefabs/UI/MobileJoystick/MobileJoystickHud";
+        private const string MobileJoystickHudPath = "Prefabs/UI/MobileJoystick/MobileJoystickHud";
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -45,7 +45,7 @@ namespace MainGame.Scripts.Infrastructure
             else
             {
                 MobileJoystickHud mobileJoystickHud = 
-                    Resources.Load<MobileJoystickHud>(UIMobilejoystickMobilejoystickhud);
+                    Resources.Load<MobileJoystickHud>(MobileJoystickHudPath);
                 
                 mobileJoystickHud = Object.Instantiate(mobileJoystickHud);
                 
