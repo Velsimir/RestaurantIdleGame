@@ -1,9 +1,10 @@
 using MainGame.Scripts.ExtensionMethods;
 using MainGame.Scripts.Infrastructure;
-using MainGame.Scripts.Services.InputService;
+using MainGame.Scripts.Infrastructure.Services;
+using MainGame.Scripts.Infrastructure.Services.InputService;
 using UnityEngine;
 
-namespace MainGame.Scripts.PlayerLogic.Movement
+namespace MainGame.Scripts.Logic.PlayerLogic.Movement
 {
     public class PlayerMover : IUpdatable
     {
@@ -14,8 +15,8 @@ namespace MainGame.Scripts.PlayerLogic.Movement
 
         public PlayerMover(CharacterController characterController, Camera camera, float movementSpeed)
         {
-            _inputService = Game.InputService;
-            _characterController = characterController;
+            _inputService = AllServices.Container.Single<IInputService>();
+;            _characterController = characterController;
             _camera = camera;
             _movementSpeed = movementSpeed;
         }

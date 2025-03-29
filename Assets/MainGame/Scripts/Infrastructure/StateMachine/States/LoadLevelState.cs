@@ -1,7 +1,8 @@
+using MainGame.Scripts.Infrastructure.Factory;
 using MainGame.Scripts.UI;
 using UnityEngine;
 
-namespace MainGame.Scripts.Infrastructure
+namespace MainGame.Scripts.Infrastructure.StateMachine.States
 {
     public class LoadLevelState : IPayloadState<SceneName>
     {

@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using MainGame.Scripts.Infrastructure.StateMachine.States;
 using MainGame.Scripts.UI;
 
-namespace MainGame.Scripts.Infrastructure
+namespace MainGame.Scripts.Infrastructure.StateMachine
 {
     public class GameStateMachine
     {

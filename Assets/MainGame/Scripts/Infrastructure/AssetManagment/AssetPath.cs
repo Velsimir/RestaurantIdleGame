@@ -1,4 +1,4 @@
-namespace MainGame.Scripts.Infrastructure
+namespace MainGame.Scripts.Infrastructure.AssetManagment
 {
     public static class AssetPath
     {

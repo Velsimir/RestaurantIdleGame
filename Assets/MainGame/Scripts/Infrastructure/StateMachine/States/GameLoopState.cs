@@ -1,4 +1,4 @@
-namespace MainGame.Scripts.Infrastructure
+namespace MainGame.Scripts.Infrastructure.StateMachine.States
 {
     public class GameLoopState : IState
     {

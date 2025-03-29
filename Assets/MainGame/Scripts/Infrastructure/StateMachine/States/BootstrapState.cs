@@ -1,8 +1,11 @@
-using MainGame.Scripts.Services.InputService;
+using MainGame.Scripts.Infrastructure.AssetManagment;
+using MainGame.Scripts.Infrastructure.Factory;
+using MainGame.Scripts.Infrastructure.Services;
+using MainGame.Scripts.Infrastructure.Services.InputService;
 using MainGame.Scripts.UI;
 using UnityEngine;
 
-namespace MainGame.Scripts.Infrastructure
+namespace MainGame.Scripts.Infrastructure.StateMachine.States
 {
     public class BootstrapState : IState
     {
@@ -21,17 +24,18 @@ namespace MainGame.Scripts.Infrastructure
             _sceneLoader.Load(SceneName.Initial, onLoaded: EnterLoadedLevel);
         }
 
+        public void Exit()
+        { }
+
         private void EnterLoadedLevel()
         {
             _gameStateMachine.Enter<LoadLevelState, SceneName>(SceneName.Game);
         }
 
-        public void Exit()
-        { }
-
         private void RegisterServices()
         {
-            Game.InputService = RegisterInputService();
+            AllServices.Container.RegisterSingle<IInputService>(RegisterInputService());
+            AllServices.Container.RegisterSingle<IGameFactory>(new GameFactory(AllServices.Container.Single<IAsset>()));
         }
         
         private IInputService RegisterInputService()

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MainGame.Scripts.Infrastructure.AssetManagment
 {
-    public class AssetProvider : IAssetProvider
+    public class Asset : IAsset
     {
         public GameObject Instantiate(string path, Vector3 at)
         {

@@ -1,4 +1,4 @@
-namespace MainGame.Scripts.PlayerLogic.Movement
+namespace MainGame.Scripts.Logic.PlayerLogic.Movement
 {
     public interface IUpdatable
     {
