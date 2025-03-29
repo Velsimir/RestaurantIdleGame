@@ -1,3 +1,4 @@
+using MainGame.Scripts.Infrastructure.Services;
 using MainGame.Scripts.Infrastructure.StateMachine;
 using MainGame.Scripts.UI;
 
@@ -9,7 +10,7 @@ namespace MainGame.Scripts.Infrastructure
 
         public Game(ICoroutineRunner coroutineRunner, Curtain curtain)
         {
-            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), curtain);
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), curtain, AllServices.Container);
         }
     }
 }
