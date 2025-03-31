@@ -14,9 +14,12 @@ namespace MainGame.Scripts.Infrastructure
             _coroutineRunner = coroutineRunner;
         }
 
+        public SceneName CurrentScene { get; private set; }
+
         public void Load(SceneName name, Action onLoaded = null)
         {
             _coroutineRunner.StartCoroutine(LoadScene(name, onLoaded));
+            CurrentScene = name;
         }
 
         private IEnumerator LoadScene(SceneName name, Action onLoaded = null)

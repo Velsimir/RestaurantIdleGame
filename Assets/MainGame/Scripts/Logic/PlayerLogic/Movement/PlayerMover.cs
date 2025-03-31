@@ -1,5 +1,7 @@
+using System;
 using MainGame.Scripts.Data;
 using MainGame.Scripts.ExtensionMethods;
+using MainGame.Scripts.Infrastructure;
 using MainGame.Scripts.Infrastructure.Services;
 using MainGame.Scripts.Infrastructure.Services.InputService;
 using UnityEngine;
@@ -47,7 +49,7 @@ namespace MainGame.Scripts.Logic.PlayerLogic.Movement
 
         public void LoadProgress(PlayerProgress progress)
         {
-            if (GetCurrentLevel() == progress.WorldData.PositionOnLevel.LevelName)
+            if (GetCurrentLevel() == progress.WorldData.PositionOnLevel.Level)
             {
                 var savedPosition = progress.WorldData.PositionOnLevel.Position;
 
@@ -65,9 +67,18 @@ namespace MainGame.Scripts.Logic.PlayerLogic.Movement
             _characterController.enabled = true;
         }
 
-        private static string GetCurrentLevel()
+        private static SceneName GetCurrentLevel()
         {
-            return SceneManager.GetActiveScene().name;
+            string scene = SceneManager.GetActiveScene().name;
+
+            if (Enum.TryParse(scene, out SceneName sceneName))
+            {
+                return sceneName;
+            }
+            else
+            {
+                throw new ArgumentException($"Scene {scene} was not found");
+            }
         }
 
         public void UpdateProgress(PlayerProgress progress)

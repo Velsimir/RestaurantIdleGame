@@ -1,4 +1,5 @@
 using System;
+using MainGame.Scripts.Infrastructure;
 using UnityEngine;
 
 namespace MainGame.Scripts.Data
@@ -11,12 +12,12 @@ namespace MainGame.Scripts.Data
 
     public class PositionOnLevel
     {
-        public string LevelName;
+        public SceneName Level;
         public Vector3Data Position;
 
-        public PositionOnLevel(string levelName, Vector3Data position)
+        public PositionOnLevel(SceneName level, Vector3Data position)
         {
-            LevelName = levelName;
+            Level = level;
             Position = position;
         }
     }

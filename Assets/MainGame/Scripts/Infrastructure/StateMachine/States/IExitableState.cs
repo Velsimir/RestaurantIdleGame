@@ -1,7 +1,7 @@
 namespace MainGame.Scripts.Infrastructure.StateMachine.States
 {
-    public interface IState : IExitableState
+    public interface IExitableState
     {
-        void Enter();
+        void Exit();
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using MainGame.Scripts.Infrastructure.Factory;
 using MainGame.Scripts.Infrastructure.Services;
+using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using MainGame.Scripts.Infrastructure.StateMachine.States;
 using MainGame.Scripts.UI;
 
@@ -18,7 +19,8 @@ namespace MainGame.Scripts.Infrastructure.StateMachine
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain, services.Single<IGameFactory>()),
-                [typeof(GameLoopState)] = new GameLoopState(this)
+                [typeof(GameLoopState)] = new GameLoopState(this),
+                [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>())
             };
         }
 

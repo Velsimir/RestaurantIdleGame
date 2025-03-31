@@ -1,4 +1,5 @@
 using System;
+using MainGame.Scripts.Infrastructure;
 
 namespace MainGame.Scripts.Data
 {
@@ -6,5 +7,10 @@ namespace MainGame.Scripts.Data
     public class PlayerProgress
     {
         public WorldData WorldData;
+
+        public PlayerProgress(SceneName initialLevel)
+        {
+        
+        }
     }
 }
