@@ -2,6 +2,7 @@ using MainGame.Scripts.Infrastructure.AssetManagment;
 using MainGame.Scripts.Infrastructure.Factory;
 using MainGame.Scripts.Infrastructure.Services;
 using MainGame.Scripts.Infrastructure.Services.InputService;
+using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using MainGame.Scripts.UI;
 using UnityEngine;
 
@@ -38,6 +39,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
         {
             _services.RegisterSingle<IInputService>(RegisterInputService());
             _services.RegisterSingle<IAsset>(new Asset());
+            _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
             _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAsset>()));
         }
         

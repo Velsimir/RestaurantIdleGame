@@ -1,12 +1,13 @@
+using MainGame.Scripts.Data;
 using MainGame.Scripts.ExtensionMethods;
-using MainGame.Scripts.Infrastructure;
 using MainGame.Scripts.Infrastructure.Services;
 using MainGame.Scripts.Infrastructure.Services.InputService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MainGame.Scripts.Logic.PlayerLogic.Movement
 {
-    public class PlayerMover : IUpdatable
+    public class PlayerMover : IUpdatable, ISavedProgress
     {
         private readonly float _movementSpeed;
         private readonly CharacterController _characterController;
@@ -42,6 +43,37 @@ namespace MainGame.Scripts.Logic.PlayerLogic.Movement
             movementVector += Physics.gravity;
 
             _characterController.Move(movementVector * (_movementSpeed * Time.deltaTime));
+        }
+
+        public void LoadProgress(PlayerProgress progress)
+        {
+            if (GetCurrentLevel() == progress.WorldData.PositionOnLevel.LevelName)
+            {
+                var savedPosition = progress.WorldData.PositionOnLevel.Position;
+
+                if (savedPosition != null)
+                {
+                    Warp(to: savedPosition);
+                }
+            }
+        }
+
+        private void Warp(Vector3Data to)
+        {
+            _characterController.enabled = false;
+            _characterController.transform.position = to.AsUnityVector3();
+            _characterController.enabled = true;
+        }
+
+        private static string GetCurrentLevel()
+        {
+            return SceneManager.GetActiveScene().name;
+        }
+
+        public void UpdateProgress(PlayerProgress progress)
+        {
+            progress.WorldData.PositionOnLevel = new PositionOnLevel
+                (GetCurrentLevel(),_characterController.transform.position.AsVector3Data());
         }
     }
 }
