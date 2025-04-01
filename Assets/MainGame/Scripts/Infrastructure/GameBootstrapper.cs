@@ -6,13 +6,15 @@ namespace MainGame.Scripts.Infrastructure
 {
     public class GameBootstrapper : MonoBehaviour, ICoroutineRunner
     {
-        [SerializeField] private Curtain _curtain;
+        [SerializeField] private Curtain _curtainPrefab;
         
         private Game _game;
 
         private void Awake()
         {
-            _game = new Game(coroutineRunner: this, _curtain);
+            _curtainPrefab = Instantiate(_curtainPrefab);
+            
+            _game = new Game(coroutineRunner: this, _curtainPrefab);
             _game.StateMachine.Enter<BootstrapState>();
 
             DontDestroyOnLoad(this);
