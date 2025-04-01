@@ -24,6 +24,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
         public void Enter(SceneName name)
         {
             _curtain.Show();
+            _gameFactory.Cleanup();
             _sceneLoader.Load(name, OnLoaded);
         }
 

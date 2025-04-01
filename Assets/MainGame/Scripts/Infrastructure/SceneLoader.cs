@@ -25,8 +25,9 @@ namespace MainGame.Scripts.Infrastructure
         private IEnumerator LoadScene(SceneName name, Action onLoaded = null)
         {
             string sceneName = name.ToString();
+            string currentSceneName = SceneManager.GetActiveScene().name;
             
-            if (SceneManager.GetActiveScene().name == sceneName)
+            if (currentSceneName == sceneName)
             {
                 onLoaded?.Invoke();
                 yield break;

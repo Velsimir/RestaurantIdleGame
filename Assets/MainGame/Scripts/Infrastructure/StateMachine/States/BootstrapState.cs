@@ -32,7 +32,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
 
         private void EnterLoadedLevel()
         {
-            _gameStateMachine.Enter<LoadLevelState, SceneName>(SceneName.Game);
+            _gameStateMachine.Enter<LoadProgressState>();
         }
 
         private void RegisterServices()
@@ -40,6 +40,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
             _services.RegisterSingle<IInputService>(RegisterInputService());
             _services.RegisterSingle<IAsset>(new Asset());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
+            _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
             _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAsset>()));
         }
         

@@ -15,5 +15,15 @@ namespace MainGame.Scripts.ExtensionMethods
         {
             return new Vector3(vector3Data.X, vector3Data.Y, vector3Data.Z);
         }
+
+        public static string ToJson(this object @object)
+        {
+            return JsonUtility.ToJson(@object);
+        }
+
+        public static T ToDeserialized<T>(this string json)
+        {
+            return JsonUtility.FromJson<T>(json);
+        }
     }
 }

@@ -1,6 +1,6 @@
 using System;
+using Cinemachine;
 using MainGame.Scripts.Infrastructure;
-using UnityEngine;
 
 namespace MainGame.Scripts.Data
 {
@@ -8,17 +8,10 @@ namespace MainGame.Scripts.Data
     public class WorldData
     {
         public PositionOnLevel PositionOnLevel;
-    }
 
-    public class PositionOnLevel
-    {
-        public SceneName Level;
-        public Vector3Data Position;
-
-        public PositionOnLevel(SceneName level, Vector3Data position)
+        public WorldData(SceneName initialLevel)
         {
-            Level = level;
-            Position = position;
+            PositionOnLevel = new PositionOnLevel(initialLevel);
         }
     }
 }

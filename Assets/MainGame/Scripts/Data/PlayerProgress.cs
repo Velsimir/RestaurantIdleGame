@@ -10,7 +10,7 @@ namespace MainGame.Scripts.Data
 
         public PlayerProgress(SceneName initialLevel)
         {
-        
+            WorldData = new WorldData(initialLevel);
         }
     }
 }

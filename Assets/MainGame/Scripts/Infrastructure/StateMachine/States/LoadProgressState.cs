@@ -20,7 +20,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine
         public void Enter()
         {
             LoadProgressionOrInitNew();
-            _gameStateMachine.Enter<LoadLevelState, SceneName>(_progressService.PlayerProgress.WorldData.PositionOnLevel.Level);
+            _gameStateMachine.Enter<LoadLevelState, SceneName>(_progressService.Progress.WorldData.PositionOnLevel.Level);
         }
 
         public void Exit()
@@ -33,17 +33,17 @@ namespace MainGame.Scripts.Infrastructure.StateMachine
 
             if (loadedProgress != null)
             {
-                _progressService.PlayerProgress = loadedProgress;
+                _progressService.Progress = loadedProgress;
             }
             else
             {
-                _progressService.PlayerProgress = LoadNewProgress();
+                _progressService.Progress = LoadNewProgress();
             }
         }
 
         private PlayerProgress LoadNewProgress()
         {
-            return new PlayerProgress(initialLevel: SceneName.Initial);
+            return new PlayerProgress(initialLevel: SceneName.Game);
         }
     }
 }

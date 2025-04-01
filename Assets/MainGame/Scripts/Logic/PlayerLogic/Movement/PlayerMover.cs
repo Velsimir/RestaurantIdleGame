@@ -19,7 +19,7 @@ namespace MainGame.Scripts.Logic.PlayerLogic.Movement
         public PlayerMover(CharacterController characterController, Camera camera, float movementSpeed)
         {
             _inputService = AllServices.Container.Single<IInputService>();
-;            _characterController = characterController;
+            _characterController = characterController;
             _camera = camera;
             _movementSpeed = movementSpeed;
         }

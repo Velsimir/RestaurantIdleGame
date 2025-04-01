@@ -4,6 +4,6 @@ namespace MainGame.Scripts.Infrastructure.Services.PersistentProgress
 {
     public interface IPersistentProgressService : IService
     {
-        PlayerProgress PlayerProgress { get; set; }
+        PlayerProgress Progress { get; set; }
     }
 }
