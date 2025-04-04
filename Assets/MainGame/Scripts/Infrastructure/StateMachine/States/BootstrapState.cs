@@ -2,6 +2,7 @@ using MainGame.Scripts.Infrastructure.AssetManagment;
 using MainGame.Scripts.Infrastructure.Factory;
 using MainGame.Scripts.Infrastructure.Services;
 using MainGame.Scripts.Infrastructure.Services.InputService;
+using MainGame.Scripts.Infrastructure.Services.ObjectSpawner;
 using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using MainGame.Scripts.UI;
 using UnityEngine;
@@ -37,6 +38,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
 
         private void RegisterServices()
         {
+            //_services.RegisterSingle <ISpawnerService<Pizza>>(new SpawnerService<Pizza>());
             _services.RegisterSingle<IInputService>(RegisterInputService());
             _services.RegisterSingle<IAsset>(new Asset());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
@@ -59,7 +61,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
         private static IInputService CreateMobileInput()
         {
             MobileJoystickHud mobileJoystickHud = 
-                Resources.Load<MobileJoystickHud>(AssetPath.MobileJoystickHudPath);
+                Resources.Load<MobileJoystickHud>(AssetPath.MobileJoystickHud);
                 
             mobileJoystickHud = Object.Instantiate(mobileJoystickHud);
                 

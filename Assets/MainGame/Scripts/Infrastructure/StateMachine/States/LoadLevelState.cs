@@ -40,7 +40,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
         private void OnLoaded()
         {
             GameObject initialPoint = GameObject.FindWithTag(PlayerInitialPoint);
-            _gameFactory.CreateHero(initialPoint);
+            _gameFactory.CreateHero(initialPoint.transform);
             InformProgressReaders();
             _gameStateMachine.Enter<GameLoopState>();
         }
