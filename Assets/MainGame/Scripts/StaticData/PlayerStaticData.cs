@@ -6,5 +6,6 @@ namespace MainGame.Scripts.StaticData
     public class PlayerStaticData : ScriptableObject
     {
         [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public int MaxPizzaHoldCount  { get; private set; }
     }
 }

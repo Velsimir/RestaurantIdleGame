@@ -13,7 +13,7 @@ namespace MainGame.Scripts.Logic
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private int _maxCountPizza;
         [SerializeField] private float _spawnDelay;
-        
+
         private WaitForSeconds _wait;
         private Stack<Pizza> _pizzas;
         private IGameFactory _gameFactory;
@@ -28,12 +28,7 @@ namespace MainGame.Scripts.Logic
 
             StartSpawn();
         }
-
-        public Pizza GetPizza()
-        {
-            return _pizzas.Pop();
-        }
-
+    
         private void StartSpawn()
         {
             StartCoroutine(SpawnProcess());
@@ -43,12 +38,12 @@ namespace MainGame.Scripts.Logic
         {
             while (IsWorking)
             {
+                yield return _wait;
+
                 if (_pizzas.Count <= _maxCountPizza)
                 {
                     SpawnPizza();
                 }
-                
-                yield return _wait;
             }
         }
 
@@ -74,9 +69,12 @@ namespace MainGame.Scripts.Logic
 
         private float CalculateYPosition()
         {
-            Pizza pizza = _pizzas.Peek();
-            float pizzaSize = pizza.Bounds.max.y;
-            return pizzaSize;
+            return _pizzas.Peek().Bounds.max.y;
+        }
+
+        public Pizza GetPizza()
+        {
+            return _pizzas.Pop();
         }
     }
 }

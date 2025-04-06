@@ -7,18 +7,12 @@ namespace MainGame.Scripts.Logic
     [RequireComponent(typeof(Collider))]
     public class Pizza : MonoBehaviour, ISpawnable
     {
-        private Transform _transform;
-        private Collider _collider;
+        [SerializeField] private Collider _collider;
+        [SerializeField] private Transform _transform;
 
         public event Action<ISpawnable> Dissapear;
         
         public Bounds Bounds => _collider.bounds;
-
-        private void Awake()
-        {
-            _transform = transform;
-            _collider = GetComponent<Collider>();
-        }
 
         private void OnDisable()
         {
@@ -28,7 +22,6 @@ namespace MainGame.Scripts.Logic
         public void SetParent(Transform holdPizzaPoint)
         {
             _transform.SetParent(holdPizzaPoint);
-            _transform.localPosition = Vector3.zero;
         }
     }
 }
