@@ -2,27 +2,33 @@ using System;
 using MainGame.Scripts.Infrastructure.Services.ObjectSpawner;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-public class Pizza : MonoBehaviour, ISpawnable
+namespace MainGame.Scripts.Logic
 {
-    private Transform _transform;
-    private Collider _collider;
-
-    public event Action<ISpawnable> Dissapear;
-
-    private void Awake()
+    [RequireComponent(typeof(Collider))]
+    public class Pizza : MonoBehaviour, ISpawnable
     {
-        _transform = transform;
-        _collider = GetComponent<Collider>();
-    }
+        private Transform _transform;
+        private Collider _collider;
 
-    private void OnDisable()
-    {
-        Dissapear?.Invoke(this);
-    }
+        public event Action<ISpawnable> Dissapear;
+        
+        public Bounds Bounds => _collider.bounds;
 
-    public Bounds GetBounds()
-    {
-        return _collider.bounds;
+        private void Awake()
+        {
+            _transform = transform;
+            _collider = GetComponent<Collider>();
+        }
+
+        private void OnDisable()
+        {
+            Dissapear?.Invoke(this);
+        }
+
+        public void SetParent(Transform holdPizzaPoint)
+        {
+            _transform.SetParent(holdPizzaPoint);
+            _transform.localPosition = Vector3.zero;
+        }
     }
 }
