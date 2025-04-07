@@ -23,5 +23,10 @@ namespace MainGame.Scripts.Infrastructure.AssetManagment
             
             return Object.Instantiate(playerPrefab); 
         }
+
+        public TData GetStaticData<TData>(string path) where TData : ScriptableObject
+        {
+            return Resources.Load<TData>(path);
+        }
     }
 }

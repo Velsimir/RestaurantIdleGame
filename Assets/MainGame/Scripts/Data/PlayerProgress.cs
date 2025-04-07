@@ -1,5 +1,6 @@
 using System;
 using MainGame.Scripts.Infrastructure;
+using MainGame.Scripts.StaticData;
 
 namespace MainGame.Scripts.Data
 {
@@ -7,6 +8,7 @@ namespace MainGame.Scripts.Data
     public class PlayerProgress
     {
         public WorldData WorldData;
+        public int MaxPizzaHoldCount = 4;
 
         public PlayerProgress(SceneName initialLevel)
         {

@@ -11,6 +11,7 @@ namespace MainGame.Scripts.Logic
         private const bool IsWorking = true;
         
         [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private Transform _transform;
         [SerializeField] private int _maxCountPizza;
         [SerializeField] private float _spawnDelay;
 
@@ -50,7 +51,10 @@ namespace MainGame.Scripts.Logic
         private void SpawnPizza()
         {
             Pizza pizza = _gameFactory.CreatePizza(_spawnPoint);
+            
             pizza.transform.position = GetSpawnPoint();
+            pizza.SetParent(_transform);
+            
             _pizzas.Push(pizza);
         }
 

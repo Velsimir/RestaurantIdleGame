@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using MainGame.Scripts.Infrastructure.Services;
+using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
+using MainGame.Scripts.Infrastructure.Services.StaticData;
+using MainGame.Scripts.Logic.PlayerLogic.Movement;
 using UnityEngine;
 
 namespace MainGame.Scripts.Logic.PlayerLogic
 {
-    public class PizzaBakeryInteracter : MonoBehaviour
+    public class PizzaBakeryInteractor : MonoBehaviour
     {
         [SerializeField] private TriggerObserver _triggerObserver;
         [SerializeField] private Transform _holdPizzaPoint;
@@ -15,10 +19,14 @@ namespace MainGame.Scripts.Logic.PlayerLogic
         private WaitForSeconds _waitDelay;
         private Coroutine _pizzaBakeryCoroutine;
         private Stack<Pizza> _pizzas = new Stack<Pizza>();
+        private int _maxPizzas;
+        
+        public bool HasPizza => _pizzas.Count > 0;
 
         private void Awake()
         {
             _waitDelay = new WaitForSeconds(_delay);
+            _maxPizzas = AllServices.Container.Single<IPersistentProgressService>().Progress.MaxPizzaHoldCount;
         }
 
         private void OnEnable()
@@ -31,6 +39,11 @@ namespace MainGame.Scripts.Logic.PlayerLogic
         {
             _triggerObserver.CollusionEntered -= TryInteract;
             _triggerObserver.CollusionExited -= DeInteract;
+        }
+
+        public Pizza GetPizza()
+        {
+            return _pizzas.Pop();
         }
 
         private void TryInteract(Collider collider)
@@ -49,16 +62,16 @@ namespace MainGame.Scripts.Logic.PlayerLogic
         {
             while (_isInteracting)
             {
-                if (pizzaBakery.HasPizza)
+                if (pizzaBakery.HasPizza && _pizzas.Count < _maxPizzas)
                 {
-                    GetPizza(pizzaBakery.GetPizza());
+                    TakePizza(pizzaBakery.GetPizza());
                 }
 
                 yield return _waitDelay;
             }
         }
 
-        private void GetPizza(Pizza pizza)
+        private void TakePizza(Pizza pizza)
         {
             _pizzas.Push(pizza);
             SetNewPizzaPosition(pizza);
