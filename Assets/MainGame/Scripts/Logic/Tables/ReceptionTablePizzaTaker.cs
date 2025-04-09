@@ -17,6 +17,9 @@ public class ReceptionTablePizzaTaker : MonoBehaviour
     private bool _isWorking = true;
     private Coroutine _takePizzaCoroutine;
     private WaitForSeconds _wait;
+    private List<Table> _tables = new List<Table>(); 
+    
+    public bool HasPizzas => _pizzas.Count > 0;
 
     private void Awake()
     {
@@ -35,9 +38,14 @@ public class ReceptionTablePizzaTaker : MonoBehaviour
         _triggerObserver.CollusionExited -= StopSomeThing;
     }
 
+    public Pizza GetPizza()
+    {
+        return _pizzas.Pop();
+    }
+
     private void TryTakePizzas(Collider collider)
     {
-        if (collider.transform.TryGetComponent(out PizzaBakeryInteractor interactor))
+        if (collider.transform.TryGetComponent(out PizzaTaker interactor))
         {
             _isWorking = true;
             StopCurrentCoroutine();
@@ -45,7 +53,7 @@ public class ReceptionTablePizzaTaker : MonoBehaviour
         }
     }
     
-    private IEnumerator TakePizza(PizzaBakeryInteractor interactor)
+    private IEnumerator TakePizza(PizzaTaker interactor)
     {
         while (_isWorking)
         {
@@ -59,7 +67,6 @@ public class ReceptionTablePizzaTaker : MonoBehaviour
             yield return _wait;
         }
     }
-
 
     private void SetNewPizzaPosition(Pizza pizza)
     {

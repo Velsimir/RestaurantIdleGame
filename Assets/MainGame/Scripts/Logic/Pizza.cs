@@ -10,18 +10,25 @@ namespace MainGame.Scripts.Logic
         [SerializeField] private Collider _collider;
         [SerializeField] private Transform _transform;
 
-        public event Action<ISpawnable> Dissapear;
-        
+        public event Action<ISpawnable> Disappeared;
+
         public Bounds Bounds => _collider.bounds;
 
         private void OnDisable()
         {
-            Dissapear?.Invoke(this);
+            Disappeared?.Invoke(this);
         }
 
         public void SetParent(Transform holdPizzaPoint)
         {
             _transform.SetParent(holdPizzaPoint);
+        }
+
+        public void Disappear()
+        {
+            _transform.SetParent(null);
+            _transform.gameObject.SetActive(false);
+            Disappeared?.Invoke(this);
         }
     }
 }

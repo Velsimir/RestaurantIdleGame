@@ -30,9 +30,14 @@ namespace MainGame.Scripts.Infrastructure.Factory
             return InstantiateRegistered(AssetPath.Player, at.position);
         }
 
-        public Pizza CreatePizza(Transform at)
+        public Pizza CreatePizza()
         {
             return _pizzaSpawner.Spawn();
+        }
+
+        public Customer CreateCustomer()
+        {
+            return _customerSpawner.Spawn();
         }
 
         public void Cleanup()

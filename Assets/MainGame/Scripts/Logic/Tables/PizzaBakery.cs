@@ -50,7 +50,7 @@ namespace MainGame.Scripts.Logic
 
         private void SpawnPizza()
         {
-            Pizza pizza = _gameFactory.CreatePizza(_spawnPoint);
+            Pizza pizza = _gameFactory.CreatePizza();
             
             pizza.transform.position = GetSpawnPoint();
             pizza.SetParent(_transform);

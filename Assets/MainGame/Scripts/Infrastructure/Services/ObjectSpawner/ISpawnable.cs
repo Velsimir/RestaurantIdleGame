@@ -4,6 +4,7 @@ namespace MainGame.Scripts.Infrastructure.Services.ObjectSpawner
 {
     public interface ISpawnable
     {
-        public event Action<ISpawnable> Dissapear;
+        public event Action<ISpawnable> Disappeared;
+        public void Disappear();
     }
 }

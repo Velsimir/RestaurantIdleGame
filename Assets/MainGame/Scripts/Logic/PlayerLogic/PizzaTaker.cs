@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using MainGame.Scripts.Infrastructure.Services;
 using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
-using MainGame.Scripts.Infrastructure.Services.StaticData;
-using MainGame.Scripts.Logic.PlayerLogic.Movement;
 using UnityEngine;
 
 namespace MainGame.Scripts.Logic.PlayerLogic
 {
-    public class PizzaBakeryInteractor : MonoBehaviour
+    public class PizzaTaker : MonoBehaviour
     {
         [SerializeField] private TriggerObserver _triggerObserver;
         [SerializeField] private Transform _holdPizzaPoint;

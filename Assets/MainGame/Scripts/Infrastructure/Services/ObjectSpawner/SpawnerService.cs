@@ -43,13 +43,13 @@ namespace MainGame.Scripts.Infrastructure.Services.ObjectSpawner
             {
                 TSpawnableObjet spawnableObjet = _pool[0];
                 _pool.Remove(spawnableObjet);
-                spawnableObjet.Dissapear += Add;
+                spawnableObjet.Disappeared += Add;
                 return spawnableObjet;
             }
 
             public void Track(TSpawnableObjet newObject)
             {
-                newObject.Dissapear += Add;
+                newObject.Disappeared += Add;
             }
 
             private void Add(ISpawnable takenObject)
@@ -57,7 +57,7 @@ namespace MainGame.Scripts.Infrastructure.Services.ObjectSpawner
                 if (takenObject is TSpawnableObjet spawnableObjet)
                 {
                     _pool.Add(spawnableObjet);
-                    spawnableObjet.Dissapear -= Add;
+                    spawnableObjet.Disappeared -= Add;
                 }
             }
         }
