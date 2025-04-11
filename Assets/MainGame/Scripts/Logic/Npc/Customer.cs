@@ -1,5 +1,7 @@
 using System;
 using MainGame.Scripts.Infrastructure.Services.ObjectSpawner;
+using MainGame.Scripts.Logic.PlayerLogic.Animations;
+using Pathfinding;
 using UnityEngine;
 
 namespace MainGame.Scripts.Logic.Npc
@@ -9,36 +11,47 @@ namespace MainGame.Scripts.Logic.Npc
     {
         [SerializeField] private Transform _transform;
         [SerializeField] private Transform _pizzaHoldPint;
-        [SerializeField] private CharacterController _characterController;
+        [SerializeField] private AIPath _aiPath;
+        [SerializeField] private Seeker _seeker;
+        [SerializeField] private Animator _animator;
+        
+        private CustomerAnimator _customerAnimator;
+        private Pizza _currentPizza;
         
         public event Action<ISpawnable> Disappeared;
-        public event Action EatEnded;
         
         public bool IsServed { get; set; }
+
+        private void Awake()
+        {
+            _customerAnimator = new CustomerAnimator(_animator, _aiPath);
+        }
+
+        private void Update()
+        {
+            _customerAnimator.Update(Time.deltaTime);
+        }
 
         public void Disappear()
         {
             IsServed = false;
             _transform.gameObject.SetActive(false);
+            _currentPizza.Disappear();
             Disappeared?.Invoke(this);
-        }
-
-        private void Eat()
-        {
-            EatEnded?.Invoke();
         }
 
         public void TakePizza(Pizza pizza)
         {
-            pizza.SetParent(_transform);
-            pizza.transform.rotation = Quaternion.identity;
-            pizza.transform.position = _pizzaHoldPint.position;
+            _currentPizza = pizza;
+            _currentPizza.SetParent(_transform);
+            _currentPizza.transform.rotation = Quaternion.identity;
+            _currentPizza.transform.position = _pizzaHoldPint.position;
             IsServed = true;
         }
 
-        public void TakeDestanation(Transform point)
+        public void TakeDestination(Transform point)
         {
-            
+            _seeker.StartPath(_transform.position, point.position);
         }
     }
 }

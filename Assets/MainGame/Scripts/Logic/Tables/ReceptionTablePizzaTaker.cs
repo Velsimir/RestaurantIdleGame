@@ -17,7 +17,6 @@ public class ReceptionTablePizzaTaker : MonoBehaviour
     private bool _isWorking = true;
     private Coroutine _takePizzaCoroutine;
     private WaitForSeconds _wait;
-    private List<Table> _tables = new List<Table>(); 
     
     public bool HasPizzas => _pizzas.Count > 0;
 
@@ -29,13 +28,13 @@ public class ReceptionTablePizzaTaker : MonoBehaviour
     private void OnEnable()
     {
         _triggerObserver.CollusionEntered += TryTakePizzas;
-        _triggerObserver.CollusionExited += StopSomeThing;
+        _triggerObserver.CollusionExited += StopWork;
     }
     
     private void OnDisable()
     {
         _triggerObserver.CollusionEntered -= TryTakePizzas;
-        _triggerObserver.CollusionExited -= StopSomeThing;
+        _triggerObserver.CollusionExited -= StopWork;
     }
 
     public Pizza GetPizza()
@@ -82,7 +81,7 @@ public class ReceptionTablePizzaTaker : MonoBehaviour
         return new Vector3(_holdPizzaPoint.localPosition.x, _holdPizzaPoint.localPosition.y + heightOffset, _holdPizzaPoint.localPosition.z);
     }
 
-    private void StopSomeThing(Collider collider)
+    private void StopWork(Collider collider)
     {
         StopCurrentCoroutine();
         _isWorking = false;

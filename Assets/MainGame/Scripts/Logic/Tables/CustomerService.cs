@@ -9,6 +9,7 @@ public class CustomerService : MonoBehaviour
     [SerializeField] private ManagerObserver _managerObserver;
     [SerializeField] private CustomerObserver _customerObserver;
     [SerializeField] private ReceptionTablePizzaTaker _receptionTablePizzaTaker;
+    [SerializeField] private Transform _exit;
     
     private bool _isWorking = true;
     private WaitUntil _waitHasUnServCustomer;
@@ -31,16 +32,14 @@ public class CustomerService : MonoBehaviour
     {
         while (_isWorking)
         {
-            Debug.Log("начало");
             yield return _waitHasUnServCustomer;
-            Debug.Log($"появился покупатель необслуженный {_customerObserver.Customer} {_waitHasUnServCustomer}");
+            
             if (_managerObserver.HasManager && _receptionTablePizzaTaker.HasPizzas)
             {
-                Debug.Log("Пробуем отдать пиицу");
                 _customerObserver.Customer.TakePizza(_receptionTablePizzaTaker.GetPizza());
+                _customerObserver.Customer.TakeDestination(_exit);
             }
 
-            Debug.Log("ждем");
             yield return _wait;
         }
     }

@@ -6,7 +6,8 @@ namespace MainGame.Scripts.Logic.Npc
 {
     public class NpcSpawner : MonoBehaviour
     {
-        [SerializeField] private NpcRouterProvider _npcRouterProvider;
+        [SerializeField] private Transform _tableCustomerTrigger;
+        
         private IGameFactory _factory;
         private Customer _customer;
 
@@ -19,6 +20,8 @@ namespace MainGame.Scripts.Logic.Npc
         private void SpawnCustomer()
         {
             _customer = _factory.CreateCustomer();
+            _customer.transform.position = transform.position;
+            _customer.TakeDestination(_tableCustomerTrigger);
         }
     }
 }
