@@ -19,7 +19,6 @@ namespace MainGame.Scripts.Logic.PlayerLogic.Animations
 
         public void Update(float deltaTime)
         {
-            Debug.Log(_aIPath.velocity.magnitude);
             _animator.SetFloat(Speed, _aIPath.velocity.magnitude);
         }
     }
