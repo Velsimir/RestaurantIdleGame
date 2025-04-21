@@ -10,7 +10,7 @@ namespace MainGame.Scripts.Logic.Npc
     public class Customer : MonoBehaviour, ISpawnable
     {
         [SerializeField] private Transform _transform;
-        [SerializeField] private Transform _pizzaHoldPint;
+        [SerializeField] private PizzaHoldPoint _pizzaHoldPint;
         [SerializeField] private AIPath _aiPath;
         [SerializeField] private Seeker _seeker;
         [SerializeField] private Animator _animator;
@@ -45,7 +45,7 @@ namespace MainGame.Scripts.Logic.Npc
             _currentPizza = pizza;
             _currentPizza.SetParent(_transform);
             _currentPizza.transform.rotation = Quaternion.identity;
-            _currentPizza.transform.position = _pizzaHoldPint.position;
+            _currentPizza.transform.position = _pizzaHoldPint.transform.position;
             IsServed = true;
         }
 

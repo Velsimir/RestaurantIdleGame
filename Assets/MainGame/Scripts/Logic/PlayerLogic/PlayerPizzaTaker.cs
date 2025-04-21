@@ -10,7 +10,7 @@ namespace MainGame.Scripts.Logic.PlayerLogic
     public class PlayerPizzaTaker : MonoBehaviour
     {
         [SerializeField] private TriggerObserver _triggerObserver;
-        [SerializeField] private Transform _holdPizzaPoint;
+        [SerializeField] private PizzaHoldPoint _holdPizzaPoint;
         [SerializeField] private Transform _transform;
         [SerializeField] private float _delay = 0.2f;
 
@@ -80,7 +80,7 @@ namespace MainGame.Scripts.Logic.PlayerLogic
 
         private void SetNewPizzaPosition(Pizza pizza)
         {
-            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _holdPizzaPoint);
+            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _holdPizzaPoint.Transform);
             pizza.SetParent(_transform);
             pizza.transform.localRotation = Quaternion.identity;
         }
