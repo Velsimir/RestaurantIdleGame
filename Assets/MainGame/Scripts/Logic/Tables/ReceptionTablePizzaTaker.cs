@@ -7,8 +7,7 @@ namespace MainGame.Scripts.Logic.Tables
 {
     public class ReceptionTablePizzaTaker : MonoBehaviour
     {
-    
-        [SerializeField] private Transform _holdPizzaPoint;
+        [SerializeField] private ObjectHoldPoint _holdPizzaPoint;
         [SerializeField] private TriggerObserver _triggerObserver;
         [SerializeField] private Transform _transform;
         [SerializeField] private int _maxPizzas;
@@ -71,7 +70,7 @@ namespace MainGame.Scripts.Logic.Tables
         private void TakePizza(PlayerPizzaTaker interactor)
         {
             Pizza pizza = interactor.GetPizza();
-            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _holdPizzaPoint);
+            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _holdPizzaPoint.Transform);
             pizza.SetParent(_transform);
             _pizzas.Push(pizza);
         }

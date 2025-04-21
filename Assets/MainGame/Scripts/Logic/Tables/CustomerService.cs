@@ -1,4 +1,5 @@
 using System.Collections;
+using MainGame.Scripts.Logic.CoinLogic;
 using UnityEngine;
 
 namespace MainGame.Scripts.Logic.Tables
@@ -12,12 +13,14 @@ namespace MainGame.Scripts.Logic.Tables
         [SerializeField] private CustomerObserver _customerObserver;
         [SerializeField] private ReceptionTablePizzaTaker _receptionTablePizzaTaker;
         [SerializeField] private Transform _exit;
+        [SerializeField] private ObjectHoldPoint _coinHoldPoint;
     
         private bool _isWorking = true;
         private WaitUntil _waitHasUnServCustomer;
         private WaitForSeconds _wait;
         private Coroutine _servCoroutine;
         private float _delay = 0.1f;
+        private CoinSpawner _coinSpawner;
     
         private void Awake()
         {
@@ -28,6 +31,8 @@ namespace MainGame.Scripts.Logic.Tables
             StopCurrentCoroutine();
 
             _servCoroutine = StartCoroutine(ServCustomers());
+
+            _coinSpawner = new CoinSpawner(_coinHoldPoint);
         }
 
         private IEnumerator ServCustomers()
@@ -40,6 +45,7 @@ namespace MainGame.Scripts.Logic.Tables
                 {
                     _customerObserver.Customer.TakePizza(_receptionTablePizzaTaker.GetPizza());
                     _customerObserver.Customer.TakeDestination(_exit);
+                    _coinSpawner.SpawnCoin();
                 }
 
                 yield return _wait;

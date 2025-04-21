@@ -3,6 +3,7 @@ using MainGame.Scripts.Infrastructure.AssetManagment;
 using MainGame.Scripts.Infrastructure.Services.ObjectSpawner;
 using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using MainGame.Scripts.Logic;
+using MainGame.Scripts.Logic.CoinLogic;
 using MainGame.Scripts.Logic.Npc;
 using UnityEngine;
 
@@ -14,12 +15,14 @@ namespace MainGame.Scripts.Infrastructure.Factory
 
         private readonly ISpawnerService<Customer> _customerSpawner;
         private readonly ISpawnerService<Pizza> _pizzaSpawner;
+        private readonly ISpawnerService<Coin> _coinSpawner;
 
         public GameFactory(IAsset assets)
         {
             _assets = assets;
             _customerSpawner = new SpawnerService<Customer>(_assets.GetPrefab<Customer>(AssetPath.Customer));
             _pizzaSpawner = new SpawnerService<Pizza>(_assets.GetPrefab<Pizza>(AssetPath.Pizza));
+            _coinSpawner = new SpawnerService<Coin>(_assets.GetPrefab<Coin>(AssetPath.Coin));
         }
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
@@ -38,6 +41,11 @@ namespace MainGame.Scripts.Infrastructure.Factory
         public Customer CreateCustomer()
         {
             return _customerSpawner.Spawn();
+        }
+
+        public Coin CreateCoin()
+        {
+            return _coinSpawner.Spawn();
         }
 
         public void Cleanup()

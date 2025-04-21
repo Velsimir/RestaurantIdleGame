@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MainGame.Scripts.Infrastructure.Services;
 using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using MainGame.Scripts.Logic;
+using MainGame.Scripts.Logic.CoinLogic;
 using MainGame.Scripts.Logic.Npc;
 using UnityEngine;
 
@@ -15,5 +16,6 @@ namespace MainGame.Scripts.Infrastructure.Factory
         void Cleanup();
         Pizza CreatePizza();
         Customer CreateCustomer();
+        Coin CreateCoin();
     }
 }

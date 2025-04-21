@@ -10,7 +10,7 @@ namespace MainGame.Scripts.Logic.Tables
     {
         private const bool IsWorking = true;
         
-        [SerializeField] private PizzaHoldPoint _pizzaHoldPoint;
+        [SerializeField] private ObjectHoldPoint _objectHoldPoint;
         [SerializeField] private Transform _transform;
         [SerializeField] private int _maxCountPizza;
         [SerializeField] private float _spawnDelay;
@@ -59,7 +59,7 @@ namespace MainGame.Scripts.Logic.Tables
         {
             Pizza pizza = _gameFactory.CreatePizza();
             
-            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _pizzaHoldPoint.Transform);
+            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _objectHoldPoint.Transform);
             pizza.SetParent(_transform);
             
             _pizzas.Push(pizza);
