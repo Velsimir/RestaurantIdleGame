@@ -34,6 +34,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
 
         private void LoadLoadedLevelWhenReady()
         {
+            Debug.Log("SDK Initialized");
             YG2.onGetSDKData -= LoadLoadedLevelWhenReady;
             _sceneLoader.Load(SceneName.Initial, onLoaded: EnterLoadedLevel);
         }
@@ -50,6 +51,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
             _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAsset>()));
             _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
+            Debug.Log("Services Registered");
         }
         
         private IInputService RegisterInputService()

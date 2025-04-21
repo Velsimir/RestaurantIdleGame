@@ -14,5 +14,10 @@ namespace MainGame.Scripts.Infrastructure.Services.InputService
         public override Vector2 Axis =>
             new(_floatingJoystick.Horizontal,
                 _floatingJoystick.Vertical);
+
+        public override void Refresh()
+        {
+            _floatingJoystick.ResetJoystick();
+        }
     }
 }
