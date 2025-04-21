@@ -2,10 +2,9 @@ using MainGame.Scripts.Data;
 using MainGame.Scripts.ExtensionMethods;
 using MainGame.Scripts.Infrastructure.Factory;
 using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
-using MainGame.Scripts.Logic.PlayerLogic.Movement;
 using UnityEngine;
 
-namespace MainGame.Scripts.Infrastructure.StateMachine
+namespace MainGame.Scripts.Infrastructure.Services.SaveLoad
 {
     public class SaveLoadService : ISaveLoadService
     {

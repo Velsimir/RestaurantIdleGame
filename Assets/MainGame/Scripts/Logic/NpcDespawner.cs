@@ -1,17 +1,20 @@
 using MainGame.Scripts.Logic.Npc;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-public class NpcDespawner : MonoBehaviour
+namespace MainGame.Scripts.Logic
 {
-    [SerializeField] private Collider _collider;
-
-    private void OnTriggerEnter(Collider other)
+    [RequireComponent(typeof(Collider))]
+    public class NpcDespawner : MonoBehaviour
     {
-        if (other.TryGetComponent(out Customer customer))
+        [SerializeField] private Collider _collider;
+
+        private void OnTriggerEnter(Collider other)
         {
-            customer.Disappear();
-            customer.transform.position = Vector3.zero;
+            if (other.TryGetComponent(out Customer customer))
+            {
+                customer.Disappear();
+                customer.transform.position = Vector3.zero;
+            }
         }
     }
 }

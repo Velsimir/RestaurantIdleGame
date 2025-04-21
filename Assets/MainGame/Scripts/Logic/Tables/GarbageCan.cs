@@ -1,7 +1,7 @@
 using MainGame.Scripts.Infrastructure.Services.ObjectSpawner;
 using UnityEngine;
 
-namespace MainGame.Scripts.Logic
+namespace MainGame.Scripts.Logic.Tables
 {
     public class GarbageCan : MonoBehaviour
     {

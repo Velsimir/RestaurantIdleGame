@@ -1,7 +1,6 @@
 using MainGame.Scripts.Data;
-using MainGame.Scripts.Infrastructure.Services;
 
-namespace MainGame.Scripts.Infrastructure.StateMachine
+namespace MainGame.Scripts.Infrastructure.Services.SaveLoad
 {
     public interface ISaveLoadService : IService
     {

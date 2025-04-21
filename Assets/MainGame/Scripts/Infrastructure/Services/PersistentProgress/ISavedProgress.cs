@@ -1,6 +1,6 @@
 using MainGame.Scripts.Data;
 
-namespace MainGame.Scripts.Logic.PlayerLogic.Movement
+namespace MainGame.Scripts.Infrastructure.Services.PersistentProgress
 {
     public interface ISavedProgressReader
     {

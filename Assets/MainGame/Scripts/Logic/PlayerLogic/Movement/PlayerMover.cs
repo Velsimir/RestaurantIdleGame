@@ -4,6 +4,7 @@ using MainGame.Scripts.ExtensionMethods;
 using MainGame.Scripts.Infrastructure;
 using MainGame.Scripts.Infrastructure.Services;
 using MainGame.Scripts.Infrastructure.Services.InputService;
+using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

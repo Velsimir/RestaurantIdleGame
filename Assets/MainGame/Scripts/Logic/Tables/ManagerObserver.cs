@@ -1,39 +1,41 @@
-using MainGame.Scripts.Logic;
 using MainGame.Scripts.Logic.PlayerLogic;
 using UnityEngine;
 
-public class ManagerObserver : MonoBehaviour
+namespace MainGame.Scripts.Logic.Tables
 {
-    [SerializeField] private TriggerObserver _managerTrigger;
-    [SerializeField] private ReceptionTablePizzaTaker _receptionTablePizzaTaker;
-
-    public bool HasManager { get; private set; }
-
-    private void OnEnable()
+    public class ManagerObserver : MonoBehaviour
     {
-        _managerTrigger.CollusionEntered += SetManager;
-        _managerTrigger.CollusionExited += UnSetManager;
-    }
+        [SerializeField] private TriggerObserver _managerTrigger;
+        [SerializeField] private ReceptionTablePizzaTaker _receptionTablePizzaTaker;
 
-    private void OnDisable()
-    {
-        _managerTrigger.CollusionEntered -= SetManager;
-        _managerTrigger.CollusionExited -= UnSetManager;
-    }
-    
-    private void SetManager(Collider collider)
-    {
-        if (collider.transform.TryGetComponent(out Player player))
+        public bool HasManager { get; private set; }
+
+        private void OnEnable()
         {
-            HasManager = true;
+            _managerTrigger.CollusionEntered += SetManager;
+            _managerTrigger.CollusionExited += UnSetManager;
         }
-    }
 
-    private void UnSetManager(Collider collider)
-    {
-        if (collider.transform.TryGetComponent(out Player player))
+        private void OnDisable()
         {
-            HasManager = false;
+            _managerTrigger.CollusionEntered -= SetManager;
+            _managerTrigger.CollusionExited -= UnSetManager;
+        }
+    
+        private void SetManager(Collider collider)
+        {
+            if (collider.transform.TryGetComponent(out Player player))
+            {
+                HasManager = true;
+            }
+        }
+
+        private void UnSetManager(Collider collider)
+        {
+            if (collider.transform.TryGetComponent(out Player player))
+            {
+                HasManager = false;
+            }
         }
     }
 }

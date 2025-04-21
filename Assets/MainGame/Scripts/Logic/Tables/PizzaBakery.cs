@@ -4,7 +4,7 @@ using MainGame.Scripts.Infrastructure.Factory;
 using MainGame.Scripts.Infrastructure.Services;
 using UnityEngine;
 
-namespace MainGame.Scripts.Logic
+namespace MainGame.Scripts.Logic.Tables
 {
     public class PizzaBakery : MonoBehaviour
     {

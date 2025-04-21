@@ -1,4 +1,5 @@
 using System.Collections;
+using MainGame.Scripts.Logic.Tables;
 using UnityEngine;
 
 namespace MainGame.Scripts.Logic.PlayerLogic

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using MainGame.Scripts.Infrastructure.Services;
 using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
+using MainGame.Scripts.Logic.Tables;
 using UnityEngine;
 
 namespace MainGame.Scripts.Logic.PlayerLogic

@@ -1,43 +1,45 @@
-using MainGame.Scripts.Logic;
 using MainGame.Scripts.Logic.Npc;
 using UnityEngine;
 
-public class CustomerObserver : MonoBehaviour
+namespace MainGame.Scripts.Logic.Tables
 {
-    [SerializeField] private TriggerObserver _customerTrigger;
-    
-    private bool _hasCustomer;
-    
-    public Customer Customer { get; private set; }
-    public bool HasUnServCustomer => _hasCustomer && Customer.IsServed == false;
-    
-    private void OnEnable()
+    public class CustomerObserver : MonoBehaviour
     {
-        _customerTrigger.CollusionEntered += TakeCustomer;
-        _customerTrigger.CollusionExited += UnTakeCustomer;
-    }
-
-    private void OnDisable()
-    {
-        _customerTrigger.CollusionEntered -= TakeCustomer;
-        _customerTrigger.CollusionExited -= UnTakeCustomer;
-    }
-
-    private void TakeCustomer(Collider collider)
-    {
-        if (collider.TryGetComponent(out Customer customer))
+        [SerializeField] private TriggerObserver _customerTrigger;
+    
+        private bool _hasCustomer;
+    
+        public Customer Customer { get; private set; }
+        public bool HasUnServCustomer => _hasCustomer && Customer.IsServed == false;
+    
+        private void OnEnable()
         {
-            Customer = customer;
-            _hasCustomer = true;
+            _customerTrigger.CollusionEntered += TakeCustomer;
+            _customerTrigger.CollusionExited += UnTakeCustomer;
         }
-    }
 
-    private void UnTakeCustomer(Collider collider)
-    {
-        if (collider.TryGetComponent(out Customer customer))
+        private void OnDisable()
         {
-            Customer = null;
-            _hasCustomer = false;
+            _customerTrigger.CollusionEntered -= TakeCustomer;
+            _customerTrigger.CollusionExited -= UnTakeCustomer;
+        }
+
+        private void TakeCustomer(Collider collider)
+        {
+            if (collider.TryGetComponent(out Customer customer))
+            {
+                Customer = customer;
+                _hasCustomer = true;
+            }
+        }
+
+        private void UnTakeCustomer(Collider collider)
+        {
+            if (collider.TryGetComponent(out Customer customer))
+            {
+                Customer = null;
+                _hasCustomer = false;
+            }
         }
     }
 }

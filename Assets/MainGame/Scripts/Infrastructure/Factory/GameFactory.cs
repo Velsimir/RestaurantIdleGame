@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using MainGame.Scripts.Infrastructure.AssetManagment;
 using MainGame.Scripts.Infrastructure.Services.ObjectSpawner;
+using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using MainGame.Scripts.Logic;
 using MainGame.Scripts.Logic.Npc;
-using MainGame.Scripts.Logic.PlayerLogic.Movement;
 using UnityEngine;
 
 namespace MainGame.Scripts.Infrastructure.Factory
