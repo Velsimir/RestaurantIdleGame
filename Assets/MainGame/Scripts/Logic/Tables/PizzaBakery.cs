@@ -18,6 +18,7 @@ namespace MainGame.Scripts.Logic.Tables
         private WaitForSeconds _wait;
         private Stack<Pizza> _pizzas;
         private IGameFactory _gameFactory;
+        private PizzaStacker _pizzaStacker;
             
         public bool HasPizza => _pizzas.Count > 0;
 
@@ -26,10 +27,16 @@ namespace MainGame.Scripts.Logic.Tables
             _pizzas = new Stack<Pizza>();
             _wait = new WaitForSeconds(_spawnDelay);
             _gameFactory = AllServices.Container.Single<IGameFactory>();
+            _pizzaStacker = new PizzaStacker();
 
             StartSpawn();
         }
-    
+
+        public Pizza GetPizza()
+        {
+            return _pizzas.Pop();
+        }
+
         private void StartSpawn()
         {
             StartCoroutine(SpawnProcess());
@@ -52,33 +59,10 @@ namespace MainGame.Scripts.Logic.Tables
         {
             Pizza pizza = _gameFactory.CreatePizza();
             
-            pizza.transform.position = GetSpawnPoint();
+            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _spawnPoint);
             pizza.SetParent(_transform);
             
             _pizzas.Push(pizza);
-        }
-
-        private Vector3 GetSpawnPoint()
-        {
-            if (_pizzas.Count > 0)
-            {
-                float yPosition = CalculateYPosition();
-                return new Vector3(_spawnPoint.transform.position.x, yPosition, _spawnPoint.transform.position.z);
-            }
-            else
-            {
-                return _spawnPoint.position;
-            }
-        }
-
-        private float CalculateYPosition()
-        {
-            return _pizzas.Peek().Bounds.max.y;
-        }
-
-        public Pizza GetPizza()
-        {
-            return _pizzas.Pop();
         }
     }
 }

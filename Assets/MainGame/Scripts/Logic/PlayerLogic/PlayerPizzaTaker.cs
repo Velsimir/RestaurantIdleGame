@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace MainGame.Scripts.Logic.PlayerLogic
 {
-    public class PizzaTaker : MonoBehaviour
+    public class PlayerPizzaTaker : MonoBehaviour
     {
         [SerializeField] private TriggerObserver _triggerObserver;
         [SerializeField] private Transform _holdPizzaPoint;
@@ -19,6 +19,7 @@ namespace MainGame.Scripts.Logic.PlayerLogic
         private Coroutine _pizzaBakeryCoroutine;
         private Stack<Pizza> _pizzas = new Stack<Pizza>();
         private int _maxPizzas;
+        private PizzaStacker _pizzaStacker;
         
         public bool HasPizza => _pizzas.Count > 0;
 
@@ -26,6 +27,7 @@ namespace MainGame.Scripts.Logic.PlayerLogic
         {
             _waitDelay = new WaitForSeconds(_delay);
             _maxPizzas = AllServices.Container.Single<IPersistentProgressService>().Progress.MaxPizzaHoldCount;
+            _pizzaStacker = new PizzaStacker();
         }
 
         private void OnEnable()
@@ -72,22 +74,15 @@ namespace MainGame.Scripts.Logic.PlayerLogic
 
         private void TakePizza(Pizza pizza)
         {
-            _pizzas.Push(pizza);
             SetNewPizzaPosition(pizza);
+            _pizzas.Push(pizza);
         }
 
         private void SetNewPizzaPosition(Pizza pizza)
         {
+            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _holdPizzaPoint);
             pizza.SetParent(_transform);
             pizza.transform.localRotation = Quaternion.identity;
-            pizza.transform.localPosition = GetHeightPosition(pizza.Bounds.size.y);
-        }
-
-        private Vector3 GetHeightPosition(float pizzaSize)
-        {
-            float heightOffset = _pizzas.Count * pizzaSize;
-
-            return new Vector3(_holdPizzaPoint.localPosition.x, heightOffset, _holdPizzaPoint.localPosition.z);
         }
 
         private void DeInteract(Collider obj)

@@ -18,12 +18,14 @@ namespace MainGame.Scripts.Logic.Tables
         private bool _isWorking = true;
         private Coroutine _takePizzaCoroutine;
         private WaitForSeconds _wait;
+        private PizzaStacker _pizzaStacker;
     
         public bool HasPizzas => _pizzas.Count > 0;
 
         private void Awake()
         {
             _wait = new WaitForSeconds(_delay);
+            _pizzaStacker = new PizzaStacker();
         }
 
         private void OnEnable()
@@ -45,41 +47,33 @@ namespace MainGame.Scripts.Logic.Tables
 
         private void TryTakePizzas(Collider collider)
         {
-            if (collider.transform.TryGetComponent(out PizzaTaker interactor))
+            if (collider.transform.TryGetComponent(out PlayerPizzaTaker interactor))
             {
                 _isWorking = true;
                 StopCurrentCoroutine();
-                _takePizzaCoroutine = StartCoroutine(TakePizza(interactor));
+                _takePizzaCoroutine = StartCoroutine(TakePizzas(interactor));
             }
         }
     
-        private IEnumerator TakePizza(PizzaTaker interactor)
+        private IEnumerator TakePizzas(PlayerPizzaTaker interactor)
         {
             while (_isWorking)
             {
                 if (interactor.HasPizza && _pizzas.Count <= _maxPizzas)
                 {
-                    Pizza pizza = interactor.GetPizza();
-                    _pizzas.Push(pizza);
-                    SetNewPizzaPosition(pizza);
+                    TakePizza(interactor);
                 }
 
                 yield return _wait;
             }
         }
 
-        private void SetNewPizzaPosition(Pizza pizza)
+        private void TakePizza(PlayerPizzaTaker interactor)
         {
+            Pizza pizza = interactor.GetPizza();
+            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _holdPizzaPoint);
             pizza.SetParent(_transform);
-            pizza.transform.localRotation = Quaternion.identity;
-            pizza.transform.localPosition = GetHeightPosition(pizza.Bounds.size.y);
-        }
-    
-        private Vector3 GetHeightPosition(float pizzaSize)
-        {
-            float heightOffset = _pizzas.Count * pizzaSize;
-
-            return new Vector3(_holdPizzaPoint.localPosition.x, _holdPizzaPoint.localPosition.y + heightOffset, _holdPizzaPoint.localPosition.z);
+            _pizzas.Push(pizza);
         }
 
         private void StopWork(Collider collider)

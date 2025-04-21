@@ -1,6 +1,5 @@
 using System;
 using MainGame.Scripts.Infrastructure;
-using MainGame.Scripts.StaticData;
 
 namespace MainGame.Scripts.Data
 {

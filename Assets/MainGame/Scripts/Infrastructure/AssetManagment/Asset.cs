@@ -1,4 +1,3 @@
-using MainGame.Scripts.Infrastructure.Services.ObjectSpawner;
 using UnityEngine;
 
 namespace MainGame.Scripts.Infrastructure.AssetManagment

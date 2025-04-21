@@ -20,7 +20,7 @@ namespace MainGame.Scripts.Logic.Npc
         
         public event Action<ISpawnable> Disappeared;
         
-        public bool IsServed { get; set; }
+        public bool IsServed { get; private set; }
 
         private void Awake()
         {
