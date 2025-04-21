@@ -6,6 +6,7 @@ using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using MainGame.Scripts.Infrastructure.Services.SaveLoad;
 using MainGame.Scripts.UI;
 using UnityEngine;
+using YG;
 
 namespace MainGame.Scripts.Infrastructure.StateMachine.States
 {
@@ -25,11 +26,17 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
 
         public void Enter()
         {
-            _sceneLoader.Load(SceneName.Initial, onLoaded: EnterLoadedLevel);
+            YG2.onGetSDKData += LoadLoadedLevelWhenReady;
         }
 
         public void Exit()
         { }
+
+        private void LoadLoadedLevelWhenReady()
+        {
+            YG2.onGetSDKData -= LoadLoadedLevelWhenReady;
+            _sceneLoader.Load(SceneName.Initial, onLoaded: EnterLoadedLevel);
+        }
 
         private void EnterLoadedLevel()
         {
