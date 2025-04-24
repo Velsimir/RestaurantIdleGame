@@ -1,4 +1,3 @@
-using System;
 using MainGame.Scripts.Infrastructure.StateMachine.States;
 using MainGame.Scripts.UI;
 using UnityEngine;

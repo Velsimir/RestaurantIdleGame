@@ -1,6 +1,6 @@
 using MainGame.Scripts.Infrastructure.Factory;
 using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
-using MainGame.Scripts.Logic.PlayerLogic.Movement;
+using MainGame.Scripts.Logic.PlayerLogic;
 using MainGame.Scripts.UI;
 using UnityEngine;
 
@@ -40,7 +40,8 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
         private void OnLoaded()
         {
             GameObject initialPoint = GameObject.FindWithTag(PlayerInitialPoint);
-            _gameFactory.CreateHero(initialPoint.transform);
+            GameObject player = _gameFactory.CreateHero(initialPoint.transform);
+            _gameFactory.CreateHUD(player.GetComponent<PlayerWallet>());
             InformProgressReaders();
             _gameStateMachine.Enter<GameLoopState>();
         }

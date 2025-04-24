@@ -5,6 +5,7 @@ using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using MainGame.Scripts.Logic;
 using MainGame.Scripts.Logic.CoinLogic;
 using MainGame.Scripts.Logic.Npc;
+using MainGame.Scripts.Logic.PlayerLogic;
 using UnityEngine;
 
 namespace MainGame.Scripts.Infrastructure.Factory
@@ -46,6 +47,13 @@ namespace MainGame.Scripts.Infrastructure.Factory
         public Coin CreateCoin()
         {
             return _coinSpawner.Spawn();
+        }
+
+        public void CreateHUD(PlayerWallet playerWallet)
+        {
+            InstantiateRegistered(AssetPath.PlayerHUD, Vector3.zero).TryGetComponent(out PlayerWalletUi playerWalletUi);
+            
+            playerWalletUi.Initialize(playerWallet);
         }
 
         public void Cleanup()

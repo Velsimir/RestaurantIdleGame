@@ -4,6 +4,7 @@ using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using MainGame.Scripts.Logic;
 using MainGame.Scripts.Logic.CoinLogic;
 using MainGame.Scripts.Logic.Npc;
+using MainGame.Scripts.Logic.PlayerLogic;
 using UnityEngine;
 
 namespace MainGame.Scripts.Infrastructure.Factory
@@ -17,5 +18,6 @@ namespace MainGame.Scripts.Infrastructure.Factory
         Pizza CreatePizza();
         Customer CreateCustomer();
         Coin CreateCoin();
+        void CreateHUD(PlayerWallet getComponent);
     }
 }

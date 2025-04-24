@@ -10,9 +10,14 @@ namespace MainGame.Scripts.Logic.PlayerLogic
         
         public event Action CoinCollected;
 
-        private void Awake()
+        private void OnEnable()
         {
             _triggerObserver.CollusionEntered += TryGetCoin;
+        }
+        
+        private void OnDisable()
+        {
+            _triggerObserver.CollusionEntered -= TryGetCoin;
         }
 
         private void TryGetCoin(Collider obj)

@@ -8,5 +8,6 @@ namespace MainGame.Scripts.Infrastructure.AssetManagment
         public const string Pizza = "Prefabs/Pizza/Pizza";
         public const string Customer = "Prefabs/Npc/Customer";
         public const string Coin = "Prefabs/Coin/coin";
+        public const string PlayerHUD = "UI/PlayerHUD";
     }
 }

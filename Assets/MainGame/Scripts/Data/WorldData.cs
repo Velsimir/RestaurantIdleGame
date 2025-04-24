@@ -1,5 +1,4 @@
 using System;
-using Cinemachine;
 using MainGame.Scripts.Infrastructure;
 
 namespace MainGame.Scripts.Data
