@@ -6,6 +6,7 @@ using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using MainGame.Scripts.Infrastructure.Services.SaveLoad;
 using MainGame.Scripts.Infrastructure.StateMachine.States;
 using MainGame.Scripts.UI;
+using UnityEngine;
 
 namespace MainGame.Scripts.Infrastructure.StateMachine
 {
@@ -19,9 +20,9 @@ namespace MainGame.Scripts.Infrastructure.StateMachine
             _states = new Dictionary<Type, IExitableState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
+                [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>()),
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain, services.Single<IGameFactory>(), services.Single<IPersistentProgressService>()),
-                [typeof(GameLoopState)] = new GameLoopState(this),
-                [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>())
+                [typeof(GameLoopState)] = new GameLoopState(this)
             };
         }
 

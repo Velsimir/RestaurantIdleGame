@@ -2,6 +2,7 @@ using System;
 using MainGame.Scripts.Data;
 using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using UnityEngine;
+using YG;
 
 namespace MainGame.Scripts.Logic.PlayerLogic
 {
@@ -9,12 +10,12 @@ namespace MainGame.Scripts.Logic.PlayerLogic
     {
         [SerializeField] private PlayerCoinCollector _coinCollector;
 
-        public event Action Updated; 
-        
-        [field: SerializeField] public int Coins { get; private set; }
+        public int Coins { get; private set; }
+        public event Action Updated;
 
         private void OnEnable()
         {
+            Coins = YG2.saves.PlayerProgress.Coins;
             _coinCollector.CoinCollected += AddCoin;
         }
 
@@ -36,7 +37,7 @@ namespace MainGame.Scripts.Logic.PlayerLogic
 
         public void UpdateProgress(PlayerProgress progress)
         {
-            
+            YG2.saves.PlayerProgress.Coins = Coins;
         }
     }
 }

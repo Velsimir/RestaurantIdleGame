@@ -6,8 +6,8 @@ namespace MainGame.Scripts.Data
     [Serializable]
     public class PositionOnLevel
     {
-        public readonly SceneName Level;
-        public readonly Vector3Data Position;
+        public SceneName Level;
+        public Vector3Data Position;
 
         public PositionOnLevel(SceneName level, Vector3Data position)
         {

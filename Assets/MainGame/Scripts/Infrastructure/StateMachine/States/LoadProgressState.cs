@@ -1,6 +1,8 @@
 using MainGame.Scripts.Data;
 using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
 using MainGame.Scripts.Infrastructure.Services.SaveLoad;
+using UnityEngine;
+using YG;
 
 namespace MainGame.Scripts.Infrastructure.StateMachine.States
 {
@@ -29,7 +31,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
 
         private void LoadProgressionOrInitNew()
         {
-            var loadedProgress = _saveLoadService.Load();
+            PlayerProgress loadedProgress = _saveLoadService.LoadProgress();
 
             if (loadedProgress != null)
             {
@@ -43,7 +45,9 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
 
         private PlayerProgress LoadNewProgress()
         {
-            return new PlayerProgress(initialLevel: SceneName.Game);
+            YG2.saves.PlayerProgress = new PlayerProgress(initialLevel: SceneName.Game);
+            YG2.SaveProgress();
+            return YG2.saves.PlayerProgress;
         }
     }
 }

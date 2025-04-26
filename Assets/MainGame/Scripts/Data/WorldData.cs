@@ -7,7 +7,7 @@ namespace MainGame.Scripts.Data
     public class WorldData
     {
         public PositionOnLevel PositionOnLevel;
-
+        
         public WorldData(SceneName initialLevel)
         {
             PositionOnLevel = new PositionOnLevel(initialLevel);

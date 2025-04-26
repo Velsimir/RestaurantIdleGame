@@ -7,11 +7,14 @@ namespace MainGame.Scripts.Data
     public class PlayerProgress
     {
         public WorldData WorldData;
-        public int MaxPizzaHoldCount = 4;
+        public int MaxPizzaHoldCount;
+        public int Coins;
 
         public PlayerProgress(SceneName initialLevel)
         {
-            WorldData = new WorldData(initialLevel);
+            WorldData = new WorldData(SceneName.Game);
+            MaxPizzaHoldCount = 2;
+            Coins = 0;
         }
     }
 }

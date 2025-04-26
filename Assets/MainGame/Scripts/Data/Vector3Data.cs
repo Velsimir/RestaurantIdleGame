@@ -1,5 +1,8 @@
+using System;
+
 namespace MainGame.Scripts.Data
 {
+    [Serializable]
     public class Vector3Data
     {
         public float X;

@@ -1,15 +1,12 @@
 using MainGame.Scripts.Data;
-using MainGame.Scripts.ExtensionMethods;
 using MainGame.Scripts.Infrastructure.Factory;
 using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
-using UnityEngine;
+using YG;
 
 namespace MainGame.Scripts.Infrastructure.Services.SaveLoad
 {
     public class SaveLoadService : ISaveLoadService
     {
-        private const string ProgressKey = "Progress";
-
         private readonly IPersistentProgressService _progressService;
         private readonly IGameFactory _gameFactory;
 
@@ -19,23 +16,23 @@ namespace MainGame.Scripts.Infrastructure.Services.SaveLoad
             _gameFactory = gameFactory;
         }
 
-        public void Save()
+        public void SaveProgress()
         {
             foreach (ISavedProgress progressWriter in _gameFactory.ProgressWriters)
             {
                 progressWriter.UpdateProgress(_progressService.Progress);
             }
             
-            PlayerPrefs.SetString(ProgressKey, _progressService.Progress.ToJson());
+            YG2.SaveProgress();
         }
 
-        public PlayerProgress Load()
+        public PlayerProgress LoadProgress()
         {
-            string progress = PlayerPrefs.GetString(ProgressKey);
-
+            PlayerProgress progress = YG2.saves.PlayerProgress;
+        
             if (progress != null)
             {
-                return progress.ToDeserialized<PlayerProgress>();
+                return progress;
             }
             else
             {

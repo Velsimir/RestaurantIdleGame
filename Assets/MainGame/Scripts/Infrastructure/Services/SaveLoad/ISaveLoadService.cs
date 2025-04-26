@@ -4,7 +4,7 @@ namespace MainGame.Scripts.Infrastructure.Services.SaveLoad
 {
     public interface ISaveLoadService : IService
     {
-        void Save();
-        PlayerProgress Load();
+        void SaveProgress();
+        PlayerProgress LoadProgress();
     }
 }
