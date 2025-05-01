@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MainGame.Scripts.Logic
+namespace MainGame.Scripts.Logic.Concierge
 {
     public class QueuePosition : MonoBehaviour
     {

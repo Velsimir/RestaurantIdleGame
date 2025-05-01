@@ -6,6 +6,7 @@ using MainGame.Scripts.Logic;
 using MainGame.Scripts.Logic.CoinLogic;
 using MainGame.Scripts.Logic.Npc;
 using MainGame.Scripts.Logic.PlayerLogic;
+using MainGame.Scripts.UI;
 using UnityEngine;
 
 namespace MainGame.Scripts.Infrastructure.Factory

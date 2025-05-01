@@ -1,10 +1,10 @@
 using MainGame.Scripts.Logic.Npc;
 using UnityEngine;
 
-namespace MainGame.Scripts.Logic
+namespace MainGame.Scripts.Logic.Concierge
 {
     [RequireComponent(typeof(Collider))]
-    public class NpcDespawner : MonoBehaviour
+    public class CustomerDispawner : MonoBehaviour
     {
         [SerializeField] private Collider _collider;
 

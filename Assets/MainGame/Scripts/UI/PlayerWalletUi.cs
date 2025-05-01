@@ -1,28 +1,31 @@
 using MainGame.Scripts.Logic.PlayerLogic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
-public class PlayerWalletUi : MonoBehaviour
+namespace MainGame.Scripts.UI
 {
-    [SerializeField] private TMP_Text _coinsText;
+    public class PlayerWalletUi : MonoBehaviour
+    {
+        [SerializeField] private TMP_Text _coinsText;
     
-    private PlayerWallet _wallet;
+        private PlayerWallet _wallet;
 
-    public void Initialize(PlayerWallet wallet)
-    {
-        _wallet = wallet;
+        public void Initialize(PlayerWallet wallet)
+        {
+            _wallet = wallet;
         
-        _coinsText.text = _wallet.Coins.ToString();
-		_wallet.Updated += UpdateUi;
-    }
+            _coinsText.text = _wallet.Coins.ToString();
+            _wallet.Updated += UpdateUi;
+        }
 
-    private void OnDisable()
-    {
-        _wallet.Updated -= UpdateUi;
-    }
+        private void OnDisable()
+        {
+            _wallet.Updated -= UpdateUi;
+        }
 
-    private void UpdateUi()
-    {
-        _coinsText.text = _wallet.Coins.ToString();
+        private void UpdateUi()
+        {
+            _coinsText.text = _wallet.Coins.ToString();
+        }
     }
 }

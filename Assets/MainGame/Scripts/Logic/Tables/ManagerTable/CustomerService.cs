@@ -9,51 +9,49 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
 {
     public class CustomerService
     {
-        private readonly float _delay = 0.1f;
         private readonly bool _isWorking = true;
         private readonly WaitUntil _waitHasUnServCustomer;
-        private readonly WaitForSeconds _wait;
+        private readonly WaitForSeconds _delayBetweenTakePizza;
         private readonly Coroutine _servCoroutine;
         private readonly ICoroutineRunner _coroutineRunner;
         private readonly ManagerObserver _managerObserver;
         private readonly CustomerObserver _customerObserver;
         private readonly TablePizzaTaker _tablePizzaTaker;
 
-        public CustomerService(ManagerObserver managerObserver, CustomerObserver customerObserver, TablePizzaTaker tablePizzaTaker)
+        public CustomerService(ManagerObserver managerObserver, CustomerObserver customerObserver, TablePizzaTaker tablePizzaTaker, float delayBetweenTakePizza)
         {
             _coroutineRunner = AllServices.Container.Single<ICoroutineRunner>();
             _managerObserver = managerObserver;
             _customerObserver = customerObserver;
             _tablePizzaTaker = tablePizzaTaker;
-            
-            _waitHasUnServCustomer = new WaitUntil(() 
-                => _customerObserver.Customer != null);
 
-            _wait = new WaitForSeconds(_delay);
+            _delayBetweenTakePizza = new WaitForSeconds(delayBetweenTakePizza);
+            _waitHasUnServCustomer = new WaitUntil(() => _customerObserver.Customer != null);
 
             _coroutineRunner.StopCoroutine(ref _servCoroutine);
 
             _servCoroutine = _coroutineRunner.StartCoroutine(ServCustomers());
         }
 
-        public event Action CustomerServed;
-
         private IEnumerator ServCustomers()
         {
             while (_isWorking)
             {
                 yield return _waitHasUnServCustomer;
-            
-                if (_managerObserver.HasManager && _tablePizzaTaker.HasPizzas)
+                
+                Customer customer = _customerObserver.Customer;
+                
+                while (customer.CountWantedPizza > 0)
                 {
-                    Customer customer = _customerObserver.Customer;
+                    if (_managerObserver.HasManager && _tablePizzaTaker.HasPizzas)
+                    {
+                        customer.TakePizza(_tablePizzaTaker.GetPizza());
+                    }
                     
-                    customer.TakePizza(_tablePizzaTaker.GetPizza());
-                    
-                    CustomerServed?.Invoke();
+                    yield return _delayBetweenTakePizza;
                 }
-
-                yield return _wait;
+                
+                customer.FinalizeService();
             }
         }
     }

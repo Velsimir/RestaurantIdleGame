@@ -8,9 +8,10 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
         [SerializeField] private ObjectHoldPoint _holdPizzaPoint;
         [SerializeField] private TriggerObserver _triggerPizzaObserver;
         [SerializeField] private TriggerObserver _triggerManagerObserver;
+        [SerializeField] private TriggerObserver _triggerCustomerObserver;
         [SerializeField] private int _maxPizzasOnTable;
         [SerializeField] private float _delayToSetPizzas;
-        [SerializeField] private float _delayToInviteCustomers;
+        [SerializeField] private float _delayBetweenTakePizza;
 
         private TablePizzaTaker _tablePizzaTaker;
         private ManagerObserver _managerObserver;
@@ -28,8 +29,8 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
             Transform = transform;
             _tablePizzaTaker = new TablePizzaTaker(this, _maxPizzasOnTable, _delayToSetPizzas);
             _managerObserver = new ManagerObserver(_triggerManagerObserver);
-            _customerObserver = new CustomerObserver();
-            _customerService = new CustomerService(_managerObserver, _customerObserver, _tablePizzaTaker);
+            _customerObserver = new CustomerObserver(_triggerCustomerObserver);
+            _customerService = new CustomerService(_managerObserver, _customerObserver, _tablePizzaTaker, _delayBetweenTakePizza);
         }
 
         private void OnEnable()
@@ -39,6 +40,9 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
             
             _triggerManagerObserver.CollusionEntered += HandleEnteredTarget;
             _triggerManagerObserver.CollusionExited += HandleExitedTarget;
+            
+            _triggerCustomerObserver.CollusionEntered += HandleEnteredTarget;
+            _triggerCustomerObserver.CollusionExited += HandleExitedTarget;
         }
 
         private void OnDisable()
@@ -49,7 +53,12 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
             _triggerManagerObserver.CollusionEntered -= HandleEnteredTarget;
             _triggerManagerObserver.CollusionExited -= HandleExitedTarget;
             
+            _triggerCustomerObserver.CollusionEntered -= HandleEnteredTarget;
+            _triggerCustomerObserver.CollusionExited -= HandleExitedTarget;
+            
             _tablePizzaTaker.Dispose();
+            _managerObserver.Dispose();
+            _customerObserver.Dispose();
         }
 
         private void HandleEnteredTarget(Collider obj)

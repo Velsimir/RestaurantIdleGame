@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using MainGame.Scripts.Infrastructure.Services.ObjectSpawner;
 using MainGame.Scripts.Logic.PlayerLogic.Animations;
 using Pathfinding;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace MainGame.Scripts.Logic.Npc
 {
@@ -19,14 +21,24 @@ namespace MainGame.Scripts.Logic.Npc
         [SerializeField] private Animator _animator;
         
         private CustomerAnimator _customerAnimator;
-        private Pizza _currentPizza;
-        public event Action Reached;
-        public event Action<ISpawnable> Disappeared;
+        private Stack<Pizza> _pizzas;
+        private PizzaStacker _pizzaStacker;
         
+        public event Action<ISpawnable> Disappeared;
+        public event Action<Customer> Serviced;
+
+        public int CountWantedPizza { get; private set; }
 
         private void Awake()
         {
+            _pizzas = new Stack<Pizza>();
             _customerAnimator = new CustomerAnimator(_animator, _aiPath);
+            _pizzaStacker = new PizzaStacker();
+        }
+
+        private void OnEnable()
+        {
+            CountWantedPizza = Random.Range(1, 3);
         }
 
         private void Update()
@@ -37,28 +49,30 @@ namespace MainGame.Scripts.Logic.Npc
         public void Disappear()
         {
             _transform.gameObject.SetActive(false);
-            _currentPizza.Disappear();
+            foreach (var pizza in _pizzas)
+            {
+                pizza.Disappear();
+            }
             Disappeared?.Invoke(this);
         }
 
         public void TakePizza(Pizza pizza)
         {
-            _currentPizza = pizza;
-            _currentPizza.SetParent(_transform);
-            _currentPizza.transform.rotation = Quaternion.identity;
-            _currentPizza.transform.position = _objectHoldPint.transform.position;
+            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _objectHoldPint.Transform);
+            pizza.SetParent(_transform);
+            pizza.transform.localRotation = Quaternion.identity;
+            _pizzas.Push(pizza);
+            CountWantedPizza--;
         }
 
         public void TakeDestination(Transform point)
         {
             _seeker.StartPath(_transform.position, point.position);
-            _seeker.pathCallback += DestinationReached;
         }
 
-        private void DestinationReached(Path p)
+        public void FinalizeService()
         {
-            _seeker.pathCallback -= DestinationReached;
-            Reached?.Invoke();
+            Serviced?.Invoke(this);
         }
     }
 }

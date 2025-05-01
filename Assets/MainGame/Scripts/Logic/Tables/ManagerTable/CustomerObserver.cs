@@ -1,33 +1,41 @@
+using System;
 using MainGame.Scripts.Logic.Npc;
+using UnityEngine;
 
 namespace MainGame.Scripts.Logic.Tables.ManagerTable
 {
-    public class CustomerObserver
+    public class CustomerObserver : IDisposable
     {
-        private bool _hasCustomer;
+        private readonly TriggerObserver _customerObserver;
         private CustomerService _customerService;
+
+        public CustomerObserver(TriggerObserver customerObserver)
+        {
+            _customerObserver = customerObserver;
+            
+            _customerObserver.CollusionEntered += TakeCustomer;
+        }
 
         public Customer Customer { get; private set; }
 
-        public void TakeNewCustomer(Customer customer)
+        public void Dispose()
         {
-            if (Customer != null)
-                return;
-            
-            Customer = customer;
-            Customer.Reached += TakeCustomer;
+            _customerObserver.CollusionEntered -= TakeCustomer;
         }
 
-        private void TakeCustomer()
+        private void TakeCustomer(Collider collider)
         {
-            Customer.Reached -= TakeCustomer;
-            _hasCustomer = true;
+            if (collider.TryGetComponent(out Customer customer))
+            {
+                Customer = customer;
+                Customer.Serviced += UnTakeCustomer;
+            }
         }
 
-        private void UnTakeCustomer()
+        private void UnTakeCustomer(Customer customer)
         {
+            Customer.Serviced -= UnTakeCustomer;
             Customer = null;
-            _hasCustomer = false;
         }
     }
 }
