@@ -15,7 +15,6 @@ namespace MainGame.Scripts.Logic.PlayerLogic
 
         private void OnEnable()
         {
-            Coins = YG2.saves.PlayerProgress.Coins;
             _coinCollector.CoinCollected += AddCoin;
         }
 
@@ -32,7 +31,8 @@ namespace MainGame.Scripts.Logic.PlayerLogic
 
         public void LoadProgress(PlayerProgress progress)
         {
-            
+            Coins = progress.Coins;
+            Updated?.Invoke();
         }
 
         public void UpdateProgress(PlayerProgress progress)

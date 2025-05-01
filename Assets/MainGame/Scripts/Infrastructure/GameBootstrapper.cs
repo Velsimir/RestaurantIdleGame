@@ -1,3 +1,4 @@
+using System.Collections;
 using MainGame.Scripts.Infrastructure.StateMachine.States;
 using MainGame.Scripts.UI;
 using UnityEngine;
@@ -18,6 +19,16 @@ namespace MainGame.Scripts.Infrastructure
             _game.StateMachine.Enter<BootstrapState>();
 
             DontDestroyOnLoad(this);
+        }
+
+        public void StopCoroutine(ref Coroutine coroutine)
+        {
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+            }
+            
+            coroutine = null;
         }
     }
 }

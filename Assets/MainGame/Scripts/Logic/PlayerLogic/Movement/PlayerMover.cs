@@ -30,6 +30,25 @@ namespace MainGame.Scripts.Logic.PlayerLogic.Movement
             Move();
         }
 
+        public void LoadProgress(PlayerProgress progress)
+        {
+            if (GetCurrentLevel() == progress.WorldData.PositionOnLevel.Level)
+            {
+                var savedPosition = progress.WorldData.PositionOnLevel.Position;
+
+                if (savedPosition != null)
+                {
+                    Warp(to: savedPosition);
+                }
+            }
+        }
+
+        public void UpdateProgress(PlayerProgress progress)
+        {
+            progress.WorldData.PositionOnLevel = new PositionOnLevel
+                (GetCurrentLevel(),_characterController.transform.position.AsVector3Data());
+        }
+
         private void Move()
         {
             Vector3 movementVector = Vector3.zero;
@@ -46,19 +65,6 @@ namespace MainGame.Scripts.Logic.PlayerLogic.Movement
             movementVector += Physics.gravity;
 
             _characterController.Move(movementVector * (_movementSpeed * Time.deltaTime));
-        }
-
-        public void LoadProgress(PlayerProgress progress)
-        {
-            if (GetCurrentLevel() == progress.WorldData.PositionOnLevel.Level)
-            {
-                var savedPosition = progress.WorldData.PositionOnLevel.Position;
-
-                if (savedPosition != null)
-                {
-                    Warp(to: savedPosition);
-                }
-            }
         }
 
         private void Warp(Vector3Data to)
@@ -80,12 +86,6 @@ namespace MainGame.Scripts.Logic.PlayerLogic.Movement
             {
                 throw new ArgumentException($"Scene {scene} was not found");
             }
-        }
-
-        public void UpdateProgress(PlayerProgress progress)
-        {
-            progress.WorldData.PositionOnLevel = new PositionOnLevel
-                (GetCurrentLevel(),_characterController.transform.position.AsVector3Data());
         }
     }
 }

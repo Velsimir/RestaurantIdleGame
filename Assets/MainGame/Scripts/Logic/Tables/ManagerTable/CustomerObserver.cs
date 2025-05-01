@@ -1,24 +1,26 @@
+using System;
 using MainGame.Scripts.Logic.Npc;
 using UnityEngine;
 
-namespace MainGame.Scripts.Logic.Tables
+namespace MainGame.Scripts.Logic.Tables.ManagerTable
 {
-    public class CustomerObserver : MonoBehaviour
+    public class CustomerObserver : IDisposable
     {
-        [SerializeField] private TriggerObserver _customerTrigger;
-    
+        private readonly TriggerObserver _customerTrigger;
         private bool _hasCustomer;
-    
-        public Customer Customer { get; private set; }
-        public bool HasUnServCustomer => _hasCustomer && Customer.IsServed == false;
-    
-        private void OnEnable()
+
+        public CustomerObserver(TriggerObserver customerTrigger)
         {
+            _customerTrigger = customerTrigger;
+            
             _customerTrigger.CollusionEntered += TakeCustomer;
             _customerTrigger.CollusionExited += UnTakeCustomer;
         }
 
-        private void OnDisable()
+        public Customer Customer { get; private set; }
+        public bool HasUnServCustomer => _hasCustomer && Customer.IsServed == false;
+        
+        public void Dispose()
         {
             _customerTrigger.CollusionEntered -= TakeCustomer;
             _customerTrigger.CollusionExited -= UnTakeCustomer;

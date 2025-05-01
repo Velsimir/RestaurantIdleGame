@@ -7,6 +7,9 @@ using UnityEngine;
 namespace MainGame.Scripts.Logic.Npc
 {
     [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(AIPath))]
+    [RequireComponent(typeof(Seeker))]
     public class Customer : MonoBehaviour, ISpawnable
     {
         [SerializeField] private Transform _transform;

@@ -15,12 +15,14 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly AllServices _services;
+        private readonly ICoroutineRunner _coroutineRunner;
 
-        public BootstrapState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, AllServices allServices)
+        public BootstrapState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, AllServices allServices, ICoroutineRunner coroutineRunner)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _services = allServices;
+            _coroutineRunner = coroutineRunner;
             RegisterServices();
         }
 
@@ -45,6 +47,7 @@ namespace MainGame.Scripts.Infrastructure.StateMachine.States
 
         private void RegisterServices()
         {
+            _services.RegisterSingle<ICoroutineRunner>(_coroutineRunner);
             _services.RegisterSingle<IInputService>(RegisterInputService());
             _services.RegisterSingle<IAsset>(new Asset());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());

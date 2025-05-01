@@ -1,27 +1,28 @@
+using System;
 using MainGame.Scripts.Logic.PlayerLogic;
 using UnityEngine;
 
-namespace MainGame.Scripts.Logic.Tables
+namespace MainGame.Scripts.Logic.Tables.ManagerTable
 {
-    public class ManagerObserver : MonoBehaviour
+    public class ManagerObserver : IDisposable
     {
-        [SerializeField] private TriggerObserver _managerTrigger;
-        [SerializeField] private ReceptionTablePizzaTaker _receptionTablePizzaTaker;
+        private readonly TriggerObserver _managerTrigger;
 
-        public bool HasManager { get; private set; }
-
-        private void OnEnable()
+        public ManagerObserver(TriggerObserver managerTrigger)
         {
+            _managerTrigger = managerTrigger;
             _managerTrigger.CollusionEntered += SetManager;
             _managerTrigger.CollusionExited += UnSetManager;
         }
 
-        private void OnDisable()
+        public bool HasManager { get; private set; }
+
+        public void Dispose()
         {
             _managerTrigger.CollusionEntered -= SetManager;
             _managerTrigger.CollusionExited -= UnSetManager;
         }
-    
+
         private void SetManager(Collider collider)
         {
             if (collider.transform.TryGetComponent(out Player player))
