@@ -25,9 +25,10 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
             _managerObserver = managerObserver;
             _customerObserver = customerObserver;
             _tablePizzaTaker = tablePizzaTaker;
-            _waitHasUnServCustomer = new WaitUntil(() 
-                => _customerObserver.Customer != null && _customerObserver.HasUnServCustomer);
             
+            _waitHasUnServCustomer = new WaitUntil(() 
+                => _customerObserver.Customer != null);
+
             _wait = new WaitForSeconds(_delay);
 
             _coroutineRunner.StopCoroutine(ref _servCoroutine);

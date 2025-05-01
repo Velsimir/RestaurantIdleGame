@@ -16,7 +16,7 @@ namespace MainGame.Scripts.Infrastructure.Factory
         GameObject CreateHero(Transform at);
         void Cleanup();
         Pizza CreatePizza();
-        Customer CreateCustomer();
+        Customer CreateCustomer(Transform at);
         Coin CreateCoin();
         void CreateHUD(PlayerWallet getComponent);
     }

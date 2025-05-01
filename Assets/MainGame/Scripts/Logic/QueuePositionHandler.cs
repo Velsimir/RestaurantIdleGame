@@ -7,6 +7,8 @@ namespace MainGame.Scripts.Logic
     {
         [SerializeField] private List<QueuePosition> _customerQueuePositions = new List<QueuePosition>();
 
+        public int CountPositions => _customerQueuePositions.Count;
+        
         private void Awake()
         {
             UnReserveAllPositions();

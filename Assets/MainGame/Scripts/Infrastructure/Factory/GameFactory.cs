@@ -39,9 +39,9 @@ namespace MainGame.Scripts.Infrastructure.Factory
             return _pizzaSpawner.Spawn();
         }
 
-        public Customer CreateCustomer()
+        public Customer CreateCustomer(Transform at)
         {
-            return _customerSpawner.Spawn();
+            return _customerSpawner.Spawn(at); 
         }
 
         public Coin CreateCoin()

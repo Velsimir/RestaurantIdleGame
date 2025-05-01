@@ -20,10 +20,9 @@ namespace MainGame.Scripts.Logic.Npc
         
         private CustomerAnimator _customerAnimator;
         private Pizza _currentPizza;
-        
+        public event Action Reached;
         public event Action<ISpawnable> Disappeared;
         
-        public bool IsServed { get; private set; }
 
         private void Awake()
         {
@@ -37,7 +36,6 @@ namespace MainGame.Scripts.Logic.Npc
 
         public void Disappear()
         {
-            IsServed = false;
             _transform.gameObject.SetActive(false);
             _currentPizza.Disappear();
             Disappeared?.Invoke(this);
@@ -49,12 +47,18 @@ namespace MainGame.Scripts.Logic.Npc
             _currentPizza.SetParent(_transform);
             _currentPizza.transform.rotation = Quaternion.identity;
             _currentPizza.transform.position = _objectHoldPint.transform.position;
-            IsServed = true;
         }
 
         public void TakeDestination(Transform point)
         {
             _seeker.StartPath(_transform.position, point.position);
+            _seeker.pathCallback += DestinationReached;
+        }
+
+        private void DestinationReached(Path p)
+        {
+            _seeker.pathCallback -= DestinationReached;
+            Reached?.Invoke();
         }
     }
 }

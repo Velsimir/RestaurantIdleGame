@@ -32,6 +32,26 @@ namespace MainGame.Scripts.Infrastructure.Services.ObjectSpawner
             
             return spawnableObjet;
         }
+        
+        public TSpawnableObjet Spawn(Transform at)
+        {
+            TSpawnableObjet spawnableObjet;
+
+            if (_poolService.HasFree)
+            {
+                spawnableObjet = _poolService.Get();
+            }
+            else
+            {
+                spawnableObjet = Object.Instantiate(_spawnablePrefab, at);
+                _poolService.Track(spawnableObjet);
+            }
+            
+            spawnableObjet.transform.position = at.position;
+            spawnableObjet.gameObject.SetActive(true);
+            
+            return spawnableObjet;
+        }
 
         private class ObjectPoolService
         {

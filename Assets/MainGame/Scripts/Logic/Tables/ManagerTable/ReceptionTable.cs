@@ -8,9 +8,9 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
         [SerializeField] private ObjectHoldPoint _holdPizzaPoint;
         [SerializeField] private TriggerObserver _triggerPizzaObserver;
         [SerializeField] private TriggerObserver _triggerManagerObserver;
-        [SerializeField] private TriggerObserver _triggerCustomerObserver;
         [SerializeField] private int _maxPizzasOnTable;
         [SerializeField] private float _delayToSetPizzas;
+        [SerializeField] private float _delayToInviteCustomers;
 
         private TablePizzaTaker _tablePizzaTaker;
         private ManagerObserver _managerObserver;
@@ -28,7 +28,7 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
             Transform = transform;
             _tablePizzaTaker = new TablePizzaTaker(this, _maxPizzasOnTable, _delayToSetPizzas);
             _managerObserver = new ManagerObserver(_triggerManagerObserver);
-            _customerObserver = new CustomerObserver(_triggerCustomerObserver);
+            _customerObserver = new CustomerObserver();
             _customerService = new CustomerService(_managerObserver, _customerObserver, _tablePizzaTaker);
         }
 
@@ -36,12 +36,18 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
         {
             _triggerPizzaObserver.CollusionEntered += HandleEnteredTarget;
             _triggerPizzaObserver.CollusionExited += HandleExitedTarget;
+            
+            _triggerManagerObserver.CollusionEntered += HandleEnteredTarget;
+            _triggerManagerObserver.CollusionExited += HandleExitedTarget;
         }
 
         private void OnDisable()
         {
             _triggerPizzaObserver.CollusionEntered -= HandleEnteredTarget;
             _triggerPizzaObserver.CollusionExited -= HandleExitedTarget;
+            
+            _triggerManagerObserver.CollusionEntered -= HandleEnteredTarget;
+            _triggerManagerObserver.CollusionExited -= HandleExitedTarget;
             
             _tablePizzaTaker.Dispose();
         }
