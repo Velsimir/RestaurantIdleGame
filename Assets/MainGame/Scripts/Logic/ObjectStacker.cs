@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using MainGame.Scripts.Infrastructure.Services.ObjectSpawner;
 using UnityEngine;
 
 namespace MainGame.Scripts.Logic
 {
-    public class PizzaStacker
+    public class ObjectStacker<T> where T : IStackable
     {
-        public Vector3 GetSpawnPoint(Stack<Pizza> pizzas, Transform _spawnPoint)
+        public Vector3 GetSpawnPoint(Stack<T> pizzas, Transform _spawnPoint)
         {
             if (pizzas.Count > 0)
             {
@@ -18,9 +19,9 @@ namespace MainGame.Scripts.Logic
             }
         }
 
-        private float CalculateYPosition(Stack<Pizza> pizzas)
+        private float CalculateYPosition(Stack<T> pizzas)
         {
-            return pizzas.Peek().Bounds.max.y;
+            return pizzas.Peek().Collider.bounds.max.y + 0.1f;
         }
     }
 }

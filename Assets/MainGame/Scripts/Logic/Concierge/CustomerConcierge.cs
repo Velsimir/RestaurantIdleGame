@@ -31,14 +31,14 @@ namespace MainGame.Scripts.Logic.Concierge
         {
             _timeSinceLastInvite += Time.deltaTime;
         
-            if (ShouldInviteNewGuest())
+            if (CheckTimerToInviteCustomer())
             {
                 InviteGuest();
                 _timeSinceLastInvite = 0f;
             }
         }
 
-        private bool ShouldInviteNewGuest()
+        private bool CheckTimerToInviteCustomer()
         {
             float targetQueueSize = _fillFactor * MaxFreeSeats * (1 - Mathf.Exp(-_fillingRate * _timeSinceLastInvite));
         

@@ -18,6 +18,7 @@ namespace MainGame.Scripts.Infrastructure.Factory
         Pizza CreatePizza();
         Customer CreateCustomer(Transform at);
         Coin CreateCoin();
+        Coin CreateCoin(Transform at);
         void CreateHUD(PlayerWallet getComponent);
     }
 }

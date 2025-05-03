@@ -5,14 +5,14 @@ using UnityEngine;
 namespace MainGame.Scripts.Logic
 {
     [RequireComponent(typeof(Collider))]
-    public class Pizza : MonoBehaviour, ISpawnable
+    public class Pizza : MonoBehaviour, ISpawnable, IStackable
     {
         [SerializeField] private Collider _collider;
         [SerializeField] private Transform _transform;
 
         public event Action<ISpawnable> Disappeared;
 
-        public Bounds Bounds => _collider.bounds;
+        public Collider Collider => _collider;
 
         private void OnDisable()
         {

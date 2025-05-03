@@ -49,6 +49,11 @@ namespace MainGame.Scripts.Infrastructure.Factory
         {
             return _coinSpawner.Spawn();
         }
+        
+        public Coin CreateCoin(Transform at)
+        {
+            return _coinSpawner.Spawn(at);
+        }
 
         public void CreateHUD(PlayerWallet playerWallet)
         {

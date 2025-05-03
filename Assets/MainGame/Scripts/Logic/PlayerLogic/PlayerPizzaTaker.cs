@@ -19,7 +19,7 @@ namespace MainGame.Scripts.Logic.PlayerLogic
         private Coroutine _pizzaBakeryCoroutine;
         private Stack<Pizza> _pizzas = new Stack<Pizza>();
         private int _maxPizzas;
-        private PizzaStacker _pizzaStacker;
+        private ObjectStacker<Pizza> _objectStacker;
         
         public bool HasPizza => _pizzas.Count > 0;
 
@@ -27,7 +27,7 @@ namespace MainGame.Scripts.Logic.PlayerLogic
         {
             _waitDelay = new WaitForSeconds(_delay);
             _maxPizzas = AllServices.Container.Single<IPersistentProgressService>().Progress.MaxPizzaHoldCount;
-            _pizzaStacker = new PizzaStacker();
+            _objectStacker = new ObjectStacker<Pizza>();
         }
 
         private void OnEnable()
@@ -80,7 +80,7 @@ namespace MainGame.Scripts.Logic.PlayerLogic
 
         private void SetNewPizzaPosition(Pizza pizza)
         {
-            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _holdObjectPoint.Transform);
+            pizza.transform.position = _objectStacker.GetSpawnPoint(_pizzas, _holdObjectPoint.Transform);
             pizza.SetParent(_transform);
             pizza.transform.localRotation = Quaternion.identity;
         }

@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using MainGame.Scripts.Data;
+using MainGame.Scripts.Infrastructure.Services.ObjectSpawner;
 using MainGame.Scripts.Infrastructure.Services.PersistentProgress;
+using MainGame.Scripts.Logic.CoinLogic;
 using UnityEngine;
 using YG;
 
@@ -8,23 +11,28 @@ namespace MainGame.Scripts.Logic.PlayerLogic
 {
     public class PlayerWallet : MonoBehaviour, ISavedProgress
     {
-        [SerializeField] private PlayerCoinCollector _coinCollector;
-
+        [SerializeField] private TriggerObserver _coinObserver;
+        
         public int Coins { get; private set; }
         public event Action Updated;
 
         private void OnEnable()
         {
-            _coinCollector.CoinCollected += AddCoin;
+            _coinObserver.CollusionEntered += TryAddCoin;
         }
 
-        private void OnDisable()
+        private void TryAddCoin(Collider obj)
         {
-            _coinCollector.CoinCollected -= AddCoin;
+            if (obj.TryGetComponent(out Coin coin))
+            {
+                coin.Interact();
+                coin.Disappeared += AddCoin;
+            }
         }
 
-        private void AddCoin()
+        private void AddCoin(ISpawnable coin)
         {
+            coin.Disappeared -= AddCoin;
             Coins++;
             Updated?.Invoke();
         }

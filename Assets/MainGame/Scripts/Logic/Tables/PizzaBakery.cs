@@ -18,7 +18,7 @@ namespace MainGame.Scripts.Logic.Tables
         private WaitForSeconds _wait;
         private Stack<Pizza> _pizzas;
         private IGameFactory _gameFactory;
-        private PizzaStacker _pizzaStacker;
+        private ObjectStacker<Pizza> _objectStacker;
             
         public bool HasPizza => _pizzas.Count > 0;
 
@@ -27,7 +27,7 @@ namespace MainGame.Scripts.Logic.Tables
             _pizzas = new Stack<Pizza>();
             _wait = new WaitForSeconds(_spawnDelay);
             _gameFactory = AllServices.Container.Single<IGameFactory>();
-            _pizzaStacker = new PizzaStacker();
+            _objectStacker = new ObjectStacker<Pizza>();
 
             StartSpawn();
         }
@@ -59,7 +59,7 @@ namespace MainGame.Scripts.Logic.Tables
         {
             Pizza pizza = _gameFactory.CreatePizza();
             
-            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _objectHoldPoint.Transform);
+            pizza.transform.position = _objectStacker.GetSpawnPoint(_pizzas, _objectHoldPoint.Transform);
             pizza.SetParent(_transform);
             
             _pizzas.Push(pizza);

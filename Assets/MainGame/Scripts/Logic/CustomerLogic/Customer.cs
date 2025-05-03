@@ -22,18 +22,19 @@ namespace MainGame.Scripts.Logic.Npc
         
         private CustomerAnimator _customerAnimator;
         private Stack<Pizza> _pizzas;
-        private PizzaStacker _pizzaStacker;
+        private ObjectStacker<Pizza> _objectStacker;
         
         public event Action<ISpawnable> Disappeared;
         public event Action<Customer> Serviced;
 
         public int CountWantedPizza { get; private set; }
+        public int CountOfGotPizzas => _pizzas.Count;
 
         private void Awake()
         {
             _pizzas = new Stack<Pizza>();
             _customerAnimator = new CustomerAnimator(_animator, _aiPath);
-            _pizzaStacker = new PizzaStacker();
+            _objectStacker = new ObjectStacker<Pizza>();
         }
 
         private void OnEnable()
@@ -58,7 +59,7 @@ namespace MainGame.Scripts.Logic.Npc
 
         public void TakePizza(Pizza pizza)
         {
-            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _objectHoldPint.Transform);
+            pizza.transform.position = _objectStacker.GetSpawnPoint(_pizzas, _objectHoldPint.Transform);
             pizza.SetParent(_transform);
             pizza.transform.localRotation = Quaternion.identity;
             _pizzas.Push(pizza);

@@ -13,7 +13,7 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
         private readonly ReceptionTable _receptionTable;
         private readonly Stack<Pizza> _pizzas = new Stack<Pizza>();
         private readonly int _maxPizzas;
-        private readonly PizzaStacker _pizzaStacker;
+        private readonly ObjectStacker<Pizza> _objectStacker;
         private readonly ICoroutineRunner _coroutineRunner;
         private readonly WaitForSeconds _waitDelayToGetPizza;
         
@@ -25,7 +25,7 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
             _receptionTable = receptionTable;
             _maxPizzas = maxPizzas;
             _waitDelayToGetPizza = new WaitForSeconds(delayToGetPizza);
-            _pizzaStacker = new PizzaStacker();
+            _objectStacker = new ObjectStacker<Pizza>();
             _coroutineRunner = AllServices.Container.Single<ICoroutineRunner>();
 
             _receptionTable.TargetEntered += StartTryTakePizzas;
@@ -71,7 +71,7 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
         private void TakePizza(PlayerPizzaTaker interactor)
         {
             Pizza pizza = interactor.GetPizza();
-            pizza.transform.position = _pizzaStacker.GetSpawnPoint(_pizzas, _receptionTable.HoldPizzaPoint.Transform);
+            pizza.transform.position = _objectStacker.GetSpawnPoint(_pizzas, _receptionTable.HoldPizzaPoint.Transform);
             pizza.SetParent(_receptionTable.Transform);
             _pizzas.Push(pizza);
         }
