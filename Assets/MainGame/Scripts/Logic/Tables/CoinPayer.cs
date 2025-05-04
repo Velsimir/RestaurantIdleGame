@@ -16,6 +16,7 @@ namespace MainGame.Scripts.Logic.Tables
 
         private Coroutine _coinSpawnCoroutine;
         private int _pendingAmount;
+        private int _coinsCreatedLastTime;
 
         public CoinPayer(ObjectHoldPoint coinPlacePoint)
         {
@@ -27,6 +28,7 @@ namespace MainGame.Scripts.Logic.Tables
 
         public void SpawnCoins(int amount)
         {
+            _pendingAmount -= _coinsCreatedLastTime;
             _pendingAmount += amount;
             
             _coroutineRunner.StopCoroutine(ref _coinSpawnCoroutine);
@@ -35,10 +37,12 @@ namespace MainGame.Scripts.Logic.Tables
 
         private IEnumerator SpawnCoinsWithDelay()
         {
+            _coinsCreatedLastTime = 0;
+            
             for (int i = 0; i < _pendingAmount; i++)
             {
                 _gameFactory.CreateCoin(_coinPlacePoint.Transform);
-                _pendingAmount--;
+                _coinsCreatedLastTime++;
                 
                 yield return _waitDelayBetweenSpawnCoin;
             }

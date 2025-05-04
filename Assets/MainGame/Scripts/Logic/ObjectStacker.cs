@@ -21,7 +21,7 @@ namespace MainGame.Scripts.Logic
 
         private float CalculateYPosition(Stack<T> pizzas)
         {
-            return pizzas.Peek().Collider.bounds.max.y + 0.1f;
+            return pizzas.Peek().Collider.bounds.max.y;
         }
     }
 }

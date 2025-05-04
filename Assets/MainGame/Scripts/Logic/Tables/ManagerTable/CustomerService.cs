@@ -46,18 +46,18 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
                 
                 Customer customer = _customerObserver.Customer;
                 
-                while (customer.CountWantedPizza > 0)
+                while (customer.PizzaTaker.CountWantedPizza > 0)
                 {
                     if (_managerObserver.HasManager && _tablePizzaTaker.HasPizzas)
                     {
-                        customer.TakePizza(_tablePizzaTaker.GetPizza());
+                        customer.PizzaTaker.TakePizza(_tablePizzaTaker.GetPizza());
                     }
                     
                     yield return _delayBetweenTakePizza;
                 }
                 
                 customer.FinalizeService();
-                _coinPayer.SpawnCoins(customer.CountOfGotPizzas * 10);
+                _coinPayer.SpawnCoins(customer.PizzaTaker.CountOfGotPizzas * 10);
             }
         }
     }

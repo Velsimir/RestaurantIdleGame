@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 using MainGame.Scripts.Infrastructure.Services.ObjectSpawner;
 using MainGame.Scripts.Logic.PlayerLogic.Animations;
+using MainGame.Scripts.Logic.Tables.EatTableLogic;
 using Pathfinding;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace MainGame.Scripts.Logic.Npc
 {
@@ -14,32 +13,29 @@ namespace MainGame.Scripts.Logic.Npc
     [RequireComponent(typeof(Seeker))]
     public class Customer : MonoBehaviour, ISpawnable
     {
+        [SerializeField] private CustomerPizzaTaker _pizzaTaker;
+        [SerializeField] private CustomerEater _eater;
         [SerializeField] private Transform _transform;
-        [SerializeField] private ObjectHoldPoint _objectHoldPint;
         [SerializeField] private AIPath _aiPath;
         [SerializeField] private Seeker _seeker;
         [SerializeField] private Animator _animator;
-        
+
         private CustomerAnimator _customerAnimator;
-        private Stack<Pizza> _pizzas;
-        private ObjectStacker<Pizza> _objectStacker;
-        
+
         public event Action<ISpawnable> Disappeared;
         public event Action<Customer> Serviced;
-
-        public int CountWantedPizza { get; private set; }
-        public int CountOfGotPizzas => _pizzas.Count;
+        public event Action<Customer> FinishedFood;
+        
+        public CustomerPizzaTaker PizzaTaker => _pizzaTaker;
 
         private void Awake()
         {
-            _pizzas = new Stack<Pizza>();
             _customerAnimator = new CustomerAnimator(_animator, _aiPath);
-            _objectStacker = new ObjectStacker<Pizza>();
         }
 
         private void OnEnable()
         {
-            CountWantedPizza = Random.Range(1, 3);
+            _eater.AllPizzasEated += FinishFood;
         }
 
         private void Update()
@@ -47,23 +43,19 @@ namespace MainGame.Scripts.Logic.Npc
             _customerAnimator.Update(Time.deltaTime);
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out EatPlace eatPlace))
+            {
+                _eater.Eat(_pizzaTaker);
+            }
+        }
+
         public void Disappear()
         {
             _transform.gameObject.SetActive(false);
-            foreach (var pizza in _pizzas)
-            {
-                pizza.Disappear();
-            }
-            Disappeared?.Invoke(this);
-        }
 
-        public void TakePizza(Pizza pizza)
-        {
-            pizza.transform.position = _objectStacker.GetSpawnPoint(_pizzas, _objectHoldPint.Transform);
-            pizza.SetParent(_transform);
-            pizza.transform.localRotation = Quaternion.identity;
-            _pizzas.Push(pizza);
-            CountWantedPizza--;
+            Disappeared?.Invoke(this);
         }
 
         public void TakeDestination(Transform point)
@@ -74,6 +66,11 @@ namespace MainGame.Scripts.Logic.Npc
         public void FinalizeService()
         {
             Serviced?.Invoke(this);
+        }
+
+        private void FinishFood()
+        {
+            FinishedFood?.Invoke(this);
         }
     }
 }
