@@ -9,6 +9,7 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
         [SerializeField] private TriggerObserver _triggerPizzaObserver;
         [SerializeField] private TriggerObserver _triggerManagerObserver;
         [SerializeField] private TriggerObserver _triggerCustomerObserver;
+        [SerializeField] private ObjectHoldPoint _coinPoint;
         [SerializeField] private int _maxPizzasOnTable;
         [SerializeField] private float _delayToSetPizzas;
         [SerializeField] private float _delayBetweenTakePizza;
@@ -30,7 +31,7 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
             _tablePizzaTaker = new TablePizzaTaker(this, _maxPizzasOnTable, _delayToSetPizzas);
             _managerObserver = new ManagerObserver(_triggerManagerObserver);
             _customerObserver = new CustomerObserver(_triggerCustomerObserver);
-            _customerService = new CustomerService(_managerObserver, _customerObserver, _tablePizzaTaker, _delayBetweenTakePizza);
+            _customerService = new CustomerService(_managerObserver, _customerObserver, _tablePizzaTaker, _delayBetweenTakePizza, _coinPoint);
         }
 
         private void OnEnable()

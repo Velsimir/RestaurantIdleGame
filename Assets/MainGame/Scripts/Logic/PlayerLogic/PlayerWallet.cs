@@ -18,10 +18,15 @@ namespace MainGame.Scripts.Logic.PlayerLogic
 
         private void OnEnable()
         {
-            _coinObserver.CollusionEntered += TryAddCoin;
+            _coinObserver.CollusionEntered += TryAddCoins;
         }
 
-        private void TryAddCoin(Collider obj)
+        private void OnDisable()
+        {
+            _coinObserver.CollusionEntered -= TryAddCoins;
+        }
+
+        private void TryAddCoins(Collider obj)
         {
             if (obj.TryGetComponent(out Coin coin))
             {

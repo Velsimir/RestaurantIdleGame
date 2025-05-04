@@ -17,13 +17,18 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
         private readonly ManagerObserver _managerObserver;
         private readonly CustomerObserver _customerObserver;
         private readonly TablePizzaTaker _tablePizzaTaker;
+        private readonly ObjectHoldPoint _coinPoint;
+        private readonly CoinPayer _coinPayer;
 
-        public CustomerService(ManagerObserver managerObserver, CustomerObserver customerObserver, TablePizzaTaker tablePizzaTaker, float delayBetweenTakePizza)
+        public CustomerService(ManagerObserver managerObserver, CustomerObserver customerObserver,
+            TablePizzaTaker tablePizzaTaker, float delayBetweenTakePizza, ObjectHoldPoint coinPoint)
         {
             _coroutineRunner = AllServices.Container.Single<ICoroutineRunner>();
             _managerObserver = managerObserver;
             _customerObserver = customerObserver;
             _tablePizzaTaker = tablePizzaTaker;
+            _coinPoint = coinPoint;
+            _coinPayer = new CoinPayer(coinPoint);
 
             _delayBetweenTakePizza = new WaitForSeconds(delayBetweenTakePizza);
             _waitHasUnServCustomer = new WaitUntil(() => _customerObserver.Customer != null);
@@ -52,6 +57,7 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
                 }
                 
                 customer.FinalizeService();
+                _coinPayer.SpawnCoins(customer.CountOfGotPizzas * 10);
             }
         }
     }

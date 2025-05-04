@@ -1,72 +1,47 @@
 using System.Collections;
-using System.Collections.Generic;
+using MainGame.Scripts.Infrastructure;
 using MainGame.Scripts.Infrastructure.Factory;
 using MainGame.Scripts.Infrastructure.Services;
-using MainGame.Scripts.Logic.CoinLogic;
 using UnityEngine;
 
 namespace MainGame.Scripts.Logic.Tables
 {
-    public class CoinPayer : MonoBehaviour
+    public class CoinPayer
     {
-        private const int MaxCoinsInPack = 10;
-        
-        [SerializeField] private ObjectHoldPoint _coinPlacePoint;
-        
-        private readonly float _xOffset = 0.6f;
-        private readonly float _zOffset = 0.6f;
-        
-        private int _currentRow = 0;
-        private IGameFactory _gameFactory;
-        private List<Stack<Coin>> _coins;
-        private ObjectStacker<Coin> _objectStacker;
-        private WaitForSeconds _waitBetweenSpawnCoins;
+        private readonly IGameFactory _gameFactory;
+        private readonly ObjectHoldPoint _coinPlacePoint;
+        private readonly ICoroutineRunner _coroutineRunner;
+        private readonly float _delayBetweenSpawnCoin = 0.1f;
+        private readonly WaitForSeconds _waitDelayBetweenSpawnCoin;
 
-        private void Awake()
+        private Coroutine _coinSpawnCoroutine;
+        private int _pendingAmount;
+
+        public CoinPayer(ObjectHoldPoint coinPlacePoint)
         {
             _gameFactory = AllServices.Container.Single<IGameFactory>();
-            _coins = new List<Stack<Coin>>();
-            _objectStacker = new ObjectStacker<Coin>();
-            _waitBetweenSpawnCoins = new WaitForSeconds(0.1f);
+            _coroutineRunner = AllServices.Container.Single<ICoroutineRunner>();
+            _coinPlacePoint = coinPlacePoint;
+            _waitDelayBetweenSpawnCoin = new WaitForSeconds(_delayBetweenSpawnCoin);
         }
 
-        [ContextMenu("SpawnTestCoins")]
-        private void SpawnTestCoins()
+        public void SpawnCoins(int amount)
         {
-            StartCoroutine(SpawnPackCoins(1));
+            _pendingAmount += amount;
+            
+            _coroutineRunner.StopCoroutine(ref _coinSpawnCoroutine);
+            _coinSpawnCoroutine = _coroutineRunner.StartCoroutine(SpawnCoinsWithDelay());
         }
 
-        private IEnumerator SpawnPackCoins(int count)
+        private IEnumerator SpawnCoinsWithDelay()
         {
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < _pendingAmount; i++)
             {
-                _coins.Add(new Stack<Coin>());
+                _gameFactory.CreateCoin(_coinPlacePoint.Transform);
+                _pendingAmount--;
                 
-                for (int j = 0; j < MaxCoinsInPack; j++)
-                {
-                    Coin coin = _gameFactory.CreateCoin();
-                    coin.transform.position = _objectStacker.GetSpawnPoint(_coins[i], _coinPlacePoint.Transform);
-                    _coins[i].Push(coin);
-                    
-                    yield return _waitBetweenSpawnCoins;
-                }
-
-                MoveSpawnPointForNextStack();
+                yield return _waitDelayBetweenSpawnCoin;
             }
-        }
-        
-        private void MoveSpawnPointForNextStack()
-        {
-            if (_currentRow % 2 == 0)
-            {
-                _coinPlacePoint.Transform.position += new Vector3(_xOffset, 0, 0);
-            }
-            else
-            {
-                _coinPlacePoint.Transform.position += new Vector3(-_xOffset, 0, _zOffset);
-            }
-    
-            _currentRow++;
         }
     }
 }
