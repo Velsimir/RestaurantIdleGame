@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MainGame.Scripts.Logic.Tables.EatTableLogic
 {
-    public class EatTable : MonoBehaviour
+    public class FoodTable : MonoBehaviour, IActivatable
     {
         [SerializeField] private List<EatPlace> _allEatPlaces;
         
@@ -23,6 +23,12 @@ namespace MainGame.Scripts.Logic.Tables.EatTableLogic
             }
 
             IsActivated = true;
+        }
+
+        public void Activate()
+        {
+            IsActivated = true;
+            gameObject.SetActive(true);
         }
 
         public void SendCustomerToReserve(Customer customer)

@@ -14,13 +14,13 @@ namespace MainGame.Scripts.Logic.Concierge
         [SerializeField] private QueuePositionHandler _queuePositionHandler;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private Transform _exit;
-        [SerializeField] private List<EatTable> _tablesToEat;
+        [SerializeField] private List<FoodTable> _tablesToEat;
 
         private readonly List<Customer> _customers = new List<Customer>();
 
         private float _timeSinceLastInvite;
         private CustomerInviter _customerInviter;
-        private EatTable _freeTable;
+        private FoodTable _freeTable;
         private WaitForSeconds _waitForSeconds;
 
         private bool HasFreeTable
@@ -29,7 +29,7 @@ namespace MainGame.Scripts.Logic.Concierge
             {
                 foreach (var table in _tablesToEat)
                 {
-                    if (table.HasFreePlace)
+                    if (table.IsActivated && table.HasFreePlace)
                     {
                         _freeTable = table;
                         return true;
@@ -92,8 +92,11 @@ namespace MainGame.Scripts.Logic.Concierge
 
             _freeTable.SendCustomerToReserve(customer);
             _customers.Remove(customer);
+            
             customer.FinishedFood += SendCustomerToExit;
+            
             _queuePositionHandler.UnReserveLastQueuePlace();
+            
             MoveQueue();
         }
 
