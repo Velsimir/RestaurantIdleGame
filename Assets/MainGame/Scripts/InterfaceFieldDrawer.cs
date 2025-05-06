@@ -13,23 +13,32 @@ namespace MainGame.Scripts
             if (property.propertyType != SerializedPropertyType.ObjectReference)
             {
                 EditorGUI.LabelField(position, label.text, "Use [InterfaceField] with object references.");
+                return;
+            }
 
+            if (property.objectReferenceValue != null && property.objectReferenceValue.Equals(null))
+            {
+                property.objectReferenceValue = null;
                 return;
             }
 
             EditorGUI.BeginProperty(position, label, property);
+
             Object oldObj = property.objectReferenceValue;
 
             Object newObj = EditorGUI.ObjectField(position, label, oldObj, typeof(Object), true);
 
-            if (newObj == null || interfaceField.InterfaceType.IsAssignableFrom(newObj.GetType()))
+            if (newObj == null)
+            {
+                property.objectReferenceValue = null;
+            }
+            else if (interfaceField.InterfaceType.IsAssignableFrom(newObj.GetType()))
             {
                 property.objectReferenceValue = newObj;
             }
             else if (newObj is GameObject go)
             {
                 Component comp = go.GetComponent(interfaceField.InterfaceType);
-
                 if (comp != null)
                 {
                     property.objectReferenceValue = comp;

@@ -26,6 +26,31 @@ namespace MainGame.Scripts.Logic.PlayerLogic
             _coinObserver.CollusionEntered -= TryAddCoins;
         }
 
+        public bool TrySpendCoin()
+        {
+            if (Coins > 0)
+            {
+                Coins--;
+                Updated?.Invoke();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void LoadProgress(PlayerProgress progress)
+        {
+            Coins = progress.Coins;
+            Updated?.Invoke();
+        }
+
+        public void UpdateProgress(PlayerProgress progress)
+        {
+            YG2.saves.PlayerProgress.Coins = Coins;
+        }
+
         private void TryAddCoins(Collider obj)
         {
             if (obj.TryGetComponent(out Coin coin))
@@ -40,17 +65,6 @@ namespace MainGame.Scripts.Logic.PlayerLogic
             coin.Disappeared -= AddCoin;
             Coins++;
             Updated?.Invoke();
-        }
-
-        public void LoadProgress(PlayerProgress progress)
-        {
-            Coins = progress.Coins;
-            Updated?.Invoke();
-        }
-
-        public void UpdateProgress(PlayerProgress progress)
-        {
-            YG2.saves.PlayerProgress.Coins = Coins;
         }
     }
 }
