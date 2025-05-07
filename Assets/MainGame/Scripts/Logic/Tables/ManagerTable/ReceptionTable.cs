@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MainGame.Scripts.Logic.Tables.ManagerTable
 {
-    public class ReceptionTable : MonoBehaviour
+    public class ReceptionTable : MonoBehaviour, IActivatable
     {
         [SerializeField] private ObjectHoldPoint _holdPizzaPoint;
         [SerializeField] private TriggerObserver _triggerPizzaObserver;
@@ -24,6 +24,7 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
 
         public Transform Transform { get; private set; }
         public ObjectHoldPoint HoldPizzaPoint => _holdPizzaPoint;
+        public bool IsActivated { get; private set; } = false;
 
         private void Awake()
         {
@@ -60,6 +61,12 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
             _tablePizzaTaker.Dispose();
             _managerObserver.Dispose();
             _customerObserver.Dispose();
+        }
+
+        public void Activate()
+        {
+            gameObject.SetActive(true);
+            IsActivated = true;
         }
 
         private void HandleEnteredTarget(Collider obj)

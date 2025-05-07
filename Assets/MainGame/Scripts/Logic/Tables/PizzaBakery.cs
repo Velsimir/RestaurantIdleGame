@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MainGame.Scripts.Logic.Tables
 {
-    public class PizzaBakery : MonoBehaviour
+    public class PizzaBakery : MonoBehaviour, IActivatable
     {
         private const bool IsWorking = true;
         
@@ -63,6 +63,11 @@ namespace MainGame.Scripts.Logic.Tables
             pizza.SetParent(_transform);
             
             _pizzas.Push(pizza);
+        }
+
+        public void Activate()
+        {
+            gameObject.SetActive(true);
         }
     }
 }

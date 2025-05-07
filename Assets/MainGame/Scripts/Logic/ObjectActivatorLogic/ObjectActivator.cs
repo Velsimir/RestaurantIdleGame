@@ -1,5 +1,6 @@
 using System.Collections;
 using MainGame.Scripts.Logic.PlayerLogic;
+using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -14,6 +15,7 @@ namespace MainGame.Scripts.Logic
         [SerializeField] private ObjectHoldPoint _coinSpawnPoint;
         [SerializeField] private int _coinsToActivateObject;
         [SerializeField] private float _timeBetweenTakeCoins;
+        [SerializeField] private TMP_Text _textCoinsLeft;
         
         private WaitForSeconds _waitToActivate;
         private Coroutine _coroutineCounterPlayerInside;
@@ -24,7 +26,7 @@ namespace MainGame.Scripts.Logic
         private void Awake()
         {
             _waitToActivate = new WaitForSeconds(_timeToActivateCoinSpender);
-            _coinSpender = new CoinSpender(_coinSpawnPoint, _coinsToActivateObject,_timeBetweenTakeCoins);
+            _coinSpender = new CoinSpender(_coinSpawnPoint, _coinsToActivateObject,_timeBetweenTakeCoins, _textCoinsLeft);
         }
 
         private void OnEnable()

@@ -15,6 +15,7 @@ namespace MainGame.Scripts.Logic.Concierge
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private Transform _exit;
         [SerializeField] private List<FoodTable> _tablesToEat;
+        [SerializeField] private ReceptionTable _receptionTable;
 
         private readonly List<Customer> _customers = new List<Customer>();
 
@@ -50,6 +51,11 @@ namespace MainGame.Scripts.Logic.Concierge
 
         private void Update()
         {
+            if (_receptionTable.IsActivated == false)
+            {
+                return;
+            }
+            
             _timeSinceLastInvite += Time.deltaTime;
 
             if (CheckTimerToInviteCustomer())

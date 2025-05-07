@@ -4,6 +4,7 @@ using MainGame.Scripts.Infrastructure;
 using MainGame.Scripts.Infrastructure.Factory;
 using MainGame.Scripts.Infrastructure.Services;
 using MainGame.Scripts.Logic.PlayerLogic;
+using TMPro;
 using UnityEngine;
 
 namespace MainGame.Scripts.Logic
@@ -16,17 +17,20 @@ namespace MainGame.Scripts.Logic
         private readonly WaitForSeconds _waitBetweenTakeCoins;
         
         private int _coinsToSpawn;
+        private readonly TMP_Text _textCoinsLeft;
         private Coroutine _spawnCoinsCoroutine;
         private PlayerWallet _playerWallet;
 
-        public CoinSpender(ObjectHoldPoint coinSpawnPoint, int coinsToSpawn, float timeBetweenTakeCoins)
+        public CoinSpender(ObjectHoldPoint coinSpawnPoint, int coinsToSpawn, float timeBetweenTakeCoins,
+            TMP_Text textCoinsLeft)
         {
             _coinSpawnPoint = coinSpawnPoint;
             _coinsToSpawn = coinsToSpawn;
+            _textCoinsLeft = textCoinsLeft;
             _gameFactory = AllServices.Container.Single<IGameFactory>();
             _coroutineRunner = AllServices.Container.Single<ICoroutineRunner>();
             _waitBetweenTakeCoins = new WaitForSeconds(timeBetweenTakeCoins);
-
+            _textCoinsLeft.text = _coinsToSpawn.ToString();
         }
 
         public event Action AllCoinsPayed;
@@ -51,6 +55,7 @@ namespace MainGame.Scripts.Logic
                 {
                     _gameFactory.CreateCoin(_coinSpawnPoint.Transform).Interact();
                     _coinsToSpawn--;
+                    _textCoinsLeft.text = _coinsToSpawn.ToString();
                 }
                 else
                 {
