@@ -17,6 +17,7 @@ namespace MainGame.Scripts.Logic.CoinLogic
         [SerializeField] private Collider _collider;
 
         private bool _isFlying;
+        private Coroutine _flightRoutine;
         
         public event Action EffectEnded;
 
@@ -28,7 +29,13 @@ namespace MainGame.Scripts.Logic.CoinLogic
 
             TurnOffPhysic();
 
-            StartCoroutine(FlyRoutine());
+            if (_flightRoutine != null)
+            {
+                StopCoroutine(_flightRoutine);
+                _flightRoutine = null;
+            }
+            
+            _flightRoutine = StartCoroutine(FlyRoutine());
         }
 
         private void TurnOffPhysic()
@@ -47,13 +54,11 @@ namespace MainGame.Scripts.Logic.CoinLogic
                 Random.Range(-0.3f, 0.3f)
             ).normalized;
 
-            // 3. Параболический полёт
             while (elapsed < _flightDuration)
             {
                 float progress = elapsed / _flightDuration;
 
-                // Парабола: y = -progress^2 + progress
-                float height = Mathf.Sin(progress * Mathf.PI); // Плавный подъём и падение
+                float height = Mathf.Sin(progress * Mathf.PI);
 
                 transform.position = startPos +
                                      randomDirection * _tossForce * progress +

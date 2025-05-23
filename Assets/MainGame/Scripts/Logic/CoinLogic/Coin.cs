@@ -6,7 +6,7 @@ namespace MainGame.Scripts.Logic.CoinLogic
 {
     [RequireComponent(typeof(Collider), 
         typeof(TossCoinEffect))]
-    public class Coin : MonoBehaviour, ISpawnable, IStackable
+    public class Coin : MonoBehaviour, ITakable
     {
         [SerializeField] private Collider _collider;
         [SerializeField] private TossCoinEffect _tossCoinEffect;
@@ -14,6 +14,10 @@ namespace MainGame.Scripts.Logic.CoinLogic
         public event Action<ISpawnable> Disappeared;
 
         public Collider Collider => _collider;
+        public void Take(Transform parent, Vector3 position)
+        {
+            throw new NotImplementedException();
+        }
 
         private void OnEnable()
         {

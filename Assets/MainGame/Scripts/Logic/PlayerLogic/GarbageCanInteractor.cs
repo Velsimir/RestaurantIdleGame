@@ -7,7 +7,7 @@ namespace MainGame.Scripts.Logic.PlayerLogic
     public class GarbageCanInteractor : MonoBehaviour
     {
         [SerializeField] private TriggerObserver _triggerObserver;
-        [SerializeField] private PlayerPizzaTaker _playerPizzaTaker;
+        [SerializeField] private ObjectTaker _objectTaker;
         [SerializeField] private float _delay;
 
         private WaitForSeconds _wait;
@@ -47,9 +47,14 @@ namespace MainGame.Scripts.Logic.PlayerLogic
         {
             while (_isWorking)
             {
-                if (_playerPizzaTaker.HasPizza)
+                if (_objectTaker.HasObjects)
                 {
-                    garbageCan.TakeOutGarbage(_playerPizzaTaker.GetPizza());
+                    ITakable takable = _objectTaker.GetObject();
+
+                    if (takable is Garbage)
+                    {
+                        garbageCan.TakeOutGarbage(takable);
+                    }
                 }
 
                 yield return _wait;

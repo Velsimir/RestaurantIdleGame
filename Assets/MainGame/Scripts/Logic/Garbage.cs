@@ -4,16 +4,15 @@ using UnityEngine;
 
 namespace MainGame.Scripts.Logic
 {
-    [RequireComponent(typeof(Collider))]
-    public class Pizza : MonoBehaviour, ISpawnable, ITakable
+    public class Garbage : MonoBehaviour, ITakable
     {
         [SerializeField] private Collider _collider;
         [SerializeField] private Transform _transform;
-
+        
         public event Action<ISpawnable> Disappeared;
 
         public Collider Collider => _collider;
-        
+
         public void Take(Transform parent, Vector3 position)
         {
             _transform.SetParent(parent);

@@ -8,12 +8,12 @@ using UnityEngine;
 
 namespace MainGame.Scripts.Logic.Tables.ManagerTable
 {
-    public class TablePizzaTaker : IDisposable
+    public class TablePizzaTaker : IDisposable, IGiveble
     {
         private readonly ReceptionTable _receptionTable;
-        private readonly Stack<Pizza> _pizzas = new Stack<Pizza>();
+        private readonly Stack<ITakable> _pizzas = new Stack<ITakable>();
         private readonly int _maxPizzas;
-        private readonly ObjectStacker<Pizza> _objectStacker;
+        private readonly ObjectStacker _objectStacker;
         private readonly ICoroutineRunner _coroutineRunner;
         private readonly WaitForSeconds _waitDelayToGetPizza;
         
@@ -25,16 +25,16 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
             _receptionTable = receptionTable;
             _maxPizzas = maxPizzas;
             _waitDelayToGetPizza = new WaitForSeconds(delayToGetPizza);
-            _objectStacker = new ObjectStacker<Pizza>();
+            _objectStacker = new ObjectStacker();
             _coroutineRunner = AllServices.Container.Single<ICoroutineRunner>();
 
             _receptionTable.TargetEntered += StartTryTakePizzas;
             _receptionTable.TargetExited += StopTakePizzas;
         }
 
-        public bool HasPizzas => _pizzas.Count > 0;
-        
-        public Pizza GetPizza()
+        public bool HasObjects => _pizzas.Count > 0;
+
+        public ITakable GetObject()
         {
             return _pizzas.Pop();
         }
@@ -47,32 +47,31 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
 
         private void StartTryTakePizzas(Collider collider)
         {
-            if (collider.transform.TryGetComponent(out PlayerPizzaTaker interactor))
+            if (collider.transform.TryGetComponent(out ObjectTaker objectTaker))
             {
                 _isWorking = true;
                 _coroutineRunner.StopCoroutine(ref _takePizzaCoroutine);
-                _takePizzaCoroutine = _coroutineRunner.StartCoroutine(TakePizzas(interactor));
+                _takePizzaCoroutine = _coroutineRunner.StartCoroutine(TakePizzas(objectTaker));
             }
         }
 
-        private IEnumerator TakePizzas(PlayerPizzaTaker interactor)
+        private IEnumerator TakePizzas(ObjectTaker objectTaker)
         {
             while (_isWorking)
             {
-                if (interactor.HasPizza && _pizzas.Count <= _maxPizzas)
+                if (objectTaker.HasObjects && _pizzas.Count <= _maxPizzas)
                 {
-                    TakePizza(interactor);
+                    TakePizza(objectTaker);
                 }
 
                 yield return _waitDelayToGetPizza;
             }
         }
 
-        private void TakePizza(PlayerPizzaTaker interactor)
+        private void TakePizza(ObjectTaker objectTaker)
         {
-            Pizza pizza = interactor.GetPizza();
-            pizza.transform.position = _objectStacker.GetSpawnPoint(_pizzas, _receptionTable.HoldPizzaPoint.Transform);
-            pizza.SetParent(_receptionTable.Transform);
+            ITakable pizza = objectTaker.GetObject();
+            pizza.Take(_receptionTable.HoldPizzaPoint.Transform, _objectStacker.GetSpawnPoint(_pizzas, _receptionTable.HoldPizzaPoint.Transform));
             _pizzas.Push(pizza);
         }
 

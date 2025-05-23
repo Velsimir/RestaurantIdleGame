@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using MainGame.Scripts.Infrastructure.Factory;
 using MainGame.Scripts.Infrastructure.Services;
+using MainGame.Scripts.Logic.PlayerLogic;
 using UnityEngine;
 
 namespace MainGame.Scripts.Logic.Tables
 {
-    public class PizzaBakery : MonoBehaviour, IActivatable
+    public class PizzaBakery : MonoBehaviour, IActivatable, IGiveble
     {
         private const bool IsWorking = true;
         
@@ -16,23 +17,23 @@ namespace MainGame.Scripts.Logic.Tables
         [SerializeField] private float _spawnDelay;
 
         private WaitForSeconds _wait;
-        private Stack<Pizza> _pizzas;
+        private Stack<ITakable> _pizzas;
         private IGameFactory _gameFactory;
-        private ObjectStacker<Pizza> _objectStacker;
-            
-        public bool HasPizza => _pizzas.Count > 0;
+        private ObjectStacker _objectStacker;
+
+        public bool HasObjects => _pizzas.Count > 0;
 
         private void Awake()
         {
-            _pizzas = new Stack<Pizza>();
+            _pizzas = new Stack<ITakable>();
             _wait = new WaitForSeconds(_spawnDelay);
             _gameFactory = AllServices.Container.Single<IGameFactory>();
-            _objectStacker = new ObjectStacker<Pizza>();
+            _objectStacker = new ObjectStacker();
 
             StartSpawn();
         }
 
-        public Pizza GetPizza()
+        public ITakable GetObject()
         {
             return _pizzas.Pop();
         }
@@ -57,10 +58,9 @@ namespace MainGame.Scripts.Logic.Tables
 
         private void SpawnPizza()
         {
-            Pizza pizza = _gameFactory.CreatePizza();
+            ITakable pizza = _gameFactory.CreatePizza();
             
-            pizza.transform.position = _objectStacker.GetSpawnPoint(_pizzas, _objectHoldPoint.Transform);
-            pizza.SetParent(_transform);
+            pizza.Take(_transform,_objectStacker.GetSpawnPoint(_pizzas, _objectHoldPoint.Transform));
             
             _pizzas.Push(pizza);
         }

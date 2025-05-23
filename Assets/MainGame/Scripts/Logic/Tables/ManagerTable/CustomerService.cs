@@ -48,9 +48,9 @@ namespace MainGame.Scripts.Logic.Tables.ManagerTable
                 
                 while (customer.PizzaTaker.CountWantedPizza > 0)
                 {
-                    if (_managerObserver.HasManager && _tablePizzaTaker.HasPizzas)
+                    if (_managerObserver.HasManager && _tablePizzaTaker.HasObjects)
                     {
-                        customer.PizzaTaker.TakePizza(_tablePizzaTaker.GetPizza());
+                        customer.PizzaTaker.TakePizza(_tablePizzaTaker.GetObject());
                     }
                     
                     yield return _delayBetweenTakePizza;
